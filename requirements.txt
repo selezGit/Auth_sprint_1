@@ -1,0 +1,6 @@
+redis==3.5.3
+Flask==2.0.0
+Flask-SQLAlchemy==2.5.1
+gevent==21.1.2
+psycopg2-binary==2.8.6
+pycryptodomex==3.10.1
