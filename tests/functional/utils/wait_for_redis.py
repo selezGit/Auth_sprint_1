@@ -2,9 +2,9 @@ import asyncio
 
 import aioredis
 import repackage
-from settings import SETTINGS, logger
 
 repackage.up()
+from settings import SETTINGS, logger
 
 
 async def wait_redis():
@@ -18,4 +18,6 @@ async def wait_redis():
 
 
 if __name__ == '__main__':
+    repackage.up()
+    from settings import SETTINGS, logger
     asyncio.run(wait_redis())

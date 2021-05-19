@@ -18,7 +18,7 @@ WORKDIR /usr/src/app
 # install dependencies
 RUN pip3 install --upgrade pip
 
-COPY /src/requirements.txt .
+COPY /src/async_api/requirements.txt .
 RUN pip3 --no-cache-dir install -r requirements.txt
 
 # create directory for the app user

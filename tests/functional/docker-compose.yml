@@ -6,7 +6,7 @@ services:
     build:
       context: ../../
     volumes:
-      - ../../src:/usr/src/app
+      - ../../src/async_api:/usr/src/app
       - ../../tests:/usr/src/tests
     ports:
       - 8000:8000
