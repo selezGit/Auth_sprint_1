@@ -1,0 +1,8 @@
+pydantic==1.7.3
+psycopg2-binary==2.8.6
+elasticsearch==7.10.1
+pytz==2020.5
+coloredlogs==15.0
+redis==3.5.3
+python-dateutil==2.8.1
+backoff==1.10.0

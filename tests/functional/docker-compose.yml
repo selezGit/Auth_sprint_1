@@ -1,0 +1,57 @@
+version: '3.3'
+services:
+  back:
+    container_name: back-test
+    image: fastapi-backend
+    build:
+      context: ../../
+    volumes:
+      - ../../src:/usr/src/app
+      - ../../tests:/usr/src/tests
+    ports:
+      - 8000:8000
+    depends_on:
+      - elasticsearch
+
+    entrypoint: ["/usr/src/app/entrypoint.sh"]
+    command: "uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8000"
+
+  tests:
+    container_name: func-tests
+    image: fastapi-backend
+    volumes:
+      - ../../tests:/usr/src/tests
+    entrypoint: >
+      sh -c "pip install -r /usr/src/tests/functional/requirements.txt
+      && python3 /usr/src/tests/functional/utils/wait_for_es.py
+      && python3 /usr/src/tests/functional/utils/wait_for_redis.py
+      && pytest -o log_cli=true /usr/src/tests/functional/src"
+
+    depends_on:
+      - elasticsearch
+      - back
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    user: "1000"
+
+    ports:
+      - 9200:9200
+    restart: always
+  redis:
+    container_name: redis
+    image: redis:6
+    restart: always
+    volumes:
+      - redisdata:/data
+    ports:
+      - "6379:6379"
+
+
+  
+volumes:
+  redisdata:
