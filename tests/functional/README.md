@@ -4,11 +4,11 @@
 
 Для запуска тестов подходят следующие команды:
 
-Билд + запуск:
+Билд + запуск со своим окружением:
 
     $ sudo docker-compose -f docker-compose.yml  up -d --build
 
-Только запуск:
+Только запуск тестов:
 
     $ sudo docker-compose up tests
 

@@ -21,6 +21,19 @@ https://app.swaggerhub.com/apis/seleswagger/PRACTIX/1.0.0#/
 
 
 
+## Запуск 
+
+
+Для запуска контейнеров в корне проекта выполняем:
+
+Модуль **Async API** (FastApi):
+    
+    sudo docker-compose -f docker-compose-async_api.yml up -d --build
+
+Модуль **Auth**:
+
+    sudo docker-compose -f docker-compose-auth.yml up -d --build
+
 
 
 ## Тесты
