@@ -1,0 +1,91 @@
+version: '3.3'
+services:
+  back:
+    build: 
+      context: ./
+    volumes:
+      - ./src/async_api:/usr/src/app
+      - ./tests/usr/src/tests
+    ports:
+      - 8000:8000
+    depends_on: 
+      - db
+      - elasticsearch
+    entrypoint: ["/usr/src/app/entrypoint.sh"]
+    command: "uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8000"
+  db:
+    image: postgres:12.0-alpine
+    env_file:
+      - ./src/async_api/.env
+    ports: 
+      - 5432:5432
+    volumes:
+      - ./.pg-data:/var/lib/postgresql/data/
+      - ./src/async_api/create_schema.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    user: "1000"
+    volumes:
+      - ./.es-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    restart: always
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.7.0
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    env_file:
+      - ./src/async_api/.env
+
+  executable:
+    container_name: etl_executable_back
+    build:
+      context: .
+      dockerfile: src/etl/Dockerfile
+    env_file:
+      - ./src/async_api/.env
+    environment:
+        - RUN_ONCE=0
+    restart: always
+    tty: true
+    volumes:
+      - ./src/etl/__init__.py:/etl.py
+    command: sleep infinity
+    depends_on:
+      - db
+      - elasticsearch
+
+  pgadmin:
+    container_name: pgadmin-back
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'pgadmin4@pgadmin.org'
+      PGADMIN_DEFAULT_PASSWORD: 'admin'
+
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    restart: unless-stopped
+    depends_on:
+      - db
+  redis:
+    container_name: redis
+    image: redis:6
+    restart: always
+    volumes:
+      - redisdata:/data
+    ports:
+      - 6379:6379
+
+
+  
+volumes:
+  redisdata:

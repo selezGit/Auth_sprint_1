@@ -1,0 +1,24 @@
+version: '3.3'
+services:
+  # flask:
+
+  # grpc:
+
+  db-auth:
+    container_name: db-auth
+    image: postgres:12.0-alpine
+    env_file:
+      - ./src/auth/.env
+    ports: 
+      - 5433:5432
+    volumes:
+      - ./.pg-auth-data:/var/lib/postgresql/data/
+    restart: always
+  redis-auth:
+    container_name: redis-auth
+    image: redis:6
+    restart: always
+    volumes:
+      - ./.redis-auth-data:/data
+    ports:
+      - 6380:6379
