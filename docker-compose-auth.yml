@@ -1,7 +1,15 @@
 version: '3.3'
 services:
-  # flask:
-
+  flask:
+    build: 
+      context: src/auth/flask
+    ports:
+      - 5000:5000
+    depends_on: 
+      - db-auth
+      - redis-auth
+    command: uwsgi --ini uwsgi.ini --enable-threads
+    
   # grpc:
 
   db-auth:

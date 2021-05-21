@@ -8,15 +8,13 @@ RUN apt-get update && \
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /usr/src/grpc
+WORKDIR /usr/src/flask
 
 # install dependencies
 RUN pip3 install --upgrade pip
 
-COPY /src/grpc/requirements.txt .
+COPY requirements.txt .
+RUN pip3 install flask[async]
 RUN pip3 --no-cache-dir install -r requirements.txt
 # copy project
-COPY /src/grpc /usr/src/grpc
-
-
-ENTRYPOINT [ "python", "GRPC_ENDPOINT_HERE.py" ]
+COPY . /usr/src/flask
