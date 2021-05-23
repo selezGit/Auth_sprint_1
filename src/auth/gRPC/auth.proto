@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+
+message LoginRequest {
+    string login = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string access_token = 1;
+    string refresh_token = 2;
+    string expires_in = 3;
+    string token_type = 4;
+}
+
+message RefreshTokenRequest {
+    string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+    string access_token = 1;
+    string refresh_token = 2;
+    string expires_in = 3;
+    string token_type = 4;
+}
+
+message LogoutRequest {
+    string access_token = 1;
+}
+
+message LogoutResponse {
+}
+
+message TestTokenRequest {
+    string access_token = 1;
+}
+
+message TestTokenResponse {
+}
+
+service Auth {
+    rpc Login (LoginRequest) returns (LoginResponse);
+    rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse);
+    rpc Logout (LogoutRequest) returns (LogoutResponse);
+    rpc TestToken (TestTokenRequest) returns (TestTokenResponse);
+}
+
+message UserCreateRequest {
+    string login = 1;
+    string password = 2;
+    string email = 3;
+}
+
+message UserResponse {
+    string id = 1;
+    string login = 2;
+    string email = 3;
+}
+
+message UserGetRequest {
+    string access_token = 1;
+}
+
+message UserGetListRequest {
+    string access_token = 1;
+    int32 skip = 2;
+    int32 limit = 3;
+}
+message UserGetListResponse {
+    int32 skip = 1;
+    int32 limit = 2;
+    repeated UserResponse users = 3;
+}
+
+message UserUpdateEmailRequest {
+    string access_code = 1;
+    string password = 2;
+    string email = 3;
+}
+
+message UserDeleteMe {
+    string access_code = 1;
+}
+
+message UserUpdatePasswordRequest {
+    string old_password = 1;
+    string new_password = 2;
+    string access_code = 3;
+}
+
+
+message UserHistory {
+    string date = 1;
+    string user_agent = 2;
+    string device_type = 3;
+}
+
+message UserHistoryRequest {
+    string access_code = 1;
+    int32 skip = 2;
+    int32 limit = 3;
+}
+
+message UserHistoryResponse {
+    string access_code = 1;
+    repeated UserHistory rows = 2;
+}
+
+
+
+service User {
+    rpc Get (UserGetRequest) returns (UserResponse);
+    rpc GetList (UserGetListRequest) returns (UserGetListResponse);
+    rpc GetHistory (UserHistoryRequest) returns (UserHistoryResponse);
+    rpc Create (UserCreateRequest) returns (UserResponse);
+    rpc UpdateEmail (UserUpdateEmailRequest) returns (UserResponse);
+    rpc UpdatePassword (UserUpdatePasswordRequest) returns (UserResponse);
+    rpc DeleteMe (UserDeleteMe) returns (UserResponse);
+}
