@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 
-bp = Blueprint('user', __name__, url_prefix='/user')
+bp = Blueprint('user', __name__, url_prefix='/api/v1/user')
 
 
 @bp.route('/', methods=('GET', 'POST', 'DELETE'))
