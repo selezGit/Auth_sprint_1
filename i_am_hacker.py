@@ -2,8 +2,7 @@ import string
 from concurrent.futures import ProcessPoolExecutor
 from hashlib import md5
 from itertools import islice, product
-from multiprocessing import Value, RLock
-from time import time
+from multiprocessing import Value
 from tqdm import tqdm
 
 PROCESSES = 6
