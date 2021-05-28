@@ -20,7 +20,7 @@ def generate_pass(chars, start, end):
 
 
 def brute_force(hashes_list, chars, start, end):
-    global shared_int
+    global shared_int, progress
     pbar = tqdm(total=shared_int.value, dynamic_ncols=True)
 
     gen_pass = generate_pass(chars, start, end)
@@ -33,14 +33,16 @@ def brute_force(hashes_list, chars, start, end):
         if brute_pass in hashes_list:
             result = hashes_list.pop(hashes_list.index(brute_pass))
             with shared_int.get_lock():
-                shared_int.value -= 1 
+                shared_int.value -= 1
+                progress.value += 1
+                pbar.update(progress.value)
             print(f'password:{password}, hash: {result}')
         # это условие нужно, что бы скрипт не проверял расшаренную переменную 
         # при каждом проходе, т.к. иначе скорость работы сильно снижается
-        if i % 1000000 == 0:
+        if i % 10000000 == 0:
             if shared_int.value == 0:
                 return
-        pbar.update(1)
+        # pbar.update()
 
 
 if __name__ == '__main__':
@@ -51,6 +53,7 @@ if __name__ == '__main__':
                    '6467b3d4f0176029b582280342c83d33']
 
     shared_int = Value('i', len(hashes_list))
+    progress = Value('i', 0)
     with ProcessPoolExecutor(max_workers=PROCESSES) as executor:
         dataset = [[hashes_list, CHARS, x*batch_size,
                     (x+1)*batch_size] for x in range(PROCESSES)]
