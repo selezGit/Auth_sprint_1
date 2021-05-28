@@ -1,6 +1,8 @@
 from flask import Flask
 from .config import DevelopmentConfig
 from flask_cors import CORS
+from app.proto.auth_pb2_grpc import AuthStub
+import grpc
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
@@ -13,3 +15,11 @@ def create_app():
 
     CORS(app)
     return app
+
+
+def connect_server_auth():
+    channel = grpc.insecure_channel("server-auth:50051")
+    client = AuthStub(channel)
+    return client
+
+client = connect_server_auth()

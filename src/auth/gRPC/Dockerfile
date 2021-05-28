@@ -8,15 +8,16 @@ RUN apt-get update && \
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /usr/src/grpc
+WORKDIR /usr/src/gRPC
 
 # install dependencies
 RUN pip3 install --upgrade pip
 
-COPY /src/grpc/requirements.txt .
+COPY /requirements.txt .
 RUN pip3 --no-cache-dir install -r requirements.txt
 # copy project
-COPY /src/grpc /usr/src/grpc
+COPY . /usr/src/gRPC
 
+EXPOSE 50051
 
-ENTRYPOINT [ "python", "GRPC_ENDPOINT_HERE.py" ]
+ENTRYPOINT [ "python", "auth.py" ]
