@@ -6,9 +6,6 @@ from multiprocessing import Value, RLock
 from time import time
 from tqdm import tqdm
 
-# 4 - 23 минуты
-# 6 - 14 минут
-
 PROCESSES = 6
 CHARS = string.ascii_lowercase + string.digits
 PASSWORD_LENGHT = 6
