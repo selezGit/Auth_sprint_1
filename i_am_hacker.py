@@ -5,7 +5,8 @@ from itertools import islice, product
 from multiprocessing import Value
 from tqdm import tqdm
 
-PROCESSES = 6
+#самый оптимальный вариант 4 процесса при четырёх ядерном компьютере
+PROCESSES = 4
 CHARS = string.ascii_lowercase + string.digits
 PASSWORD_LENGHT = 6
 
