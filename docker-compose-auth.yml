@@ -30,6 +30,8 @@ services:
       - 5433:5432
     volumes:
       - ./.pg-auth-data:/var/lib/postgresql/data/
+    networks:
+      - microservices
     restart: always
   redis-auth:
     container_name: redis-auth
