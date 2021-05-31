@@ -1,5 +1,6 @@
 import auth_pb2_grpc
 from concurrent import futures
+from db.db import init_db
 
 import grpc
 
@@ -11,6 +12,7 @@ class AuthService(auth_pb2_grpc.AuthServicer):
         return LoginResponse(access_token="Hello", refresh_token="Token", expires_in="3000", token_type="Barear")
 
 def serve():
+    init_db()
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=6))
     auth_pb2_grpc.add_AuthServicer_to_server(
         AuthService(), server

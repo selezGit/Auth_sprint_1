@@ -1,3 +1,5 @@
 grpc-interceptor ~= 0.12.0
 grpcio-tools ~= 1.30
 pytest ~= 5.4
+SQLAlchemy==1.4.15
+psycopg2-binary==2.8.6

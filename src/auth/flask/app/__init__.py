@@ -3,11 +3,9 @@ from .config import DevelopmentConfig
 from flask_cors import CORS
 from app.proto.auth_pb2_grpc import AuthStub
 import grpc
-from .db import init_db
 
 
 def create_app():
-    init_db()
     app = Flask(__name__, instance_relative_config=True)
 
     app.config.from_object(DevelopmentConfig)
