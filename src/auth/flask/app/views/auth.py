@@ -6,6 +6,8 @@ from app import client
 bp = Blueprint('auth', __name__, url_prefix='/api/v1/auth')
 
 
+
+
 @bp.route('/login', methods=('GET', 'POST'))
 async def login():
     # if request.method == 'POST':
