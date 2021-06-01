@@ -1,12 +1,19 @@
 import datetime
+import os
 import uuid
+from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import (Column, DateTime, ForeignKey, String, Text,
-                        create_engine)
+import bcrypt
+import jwt
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
+from db.no_sql_db import add_refresh_token, add_to_blacklist, del_refresh_token
+
 from .db import Base
+
+SECRET_KEY = os.getenv('SECRET_KEY', 'somesecret')
 
 
 def create_partition(target, connection, **kw) -> None:
@@ -30,7 +37,7 @@ class UserSignIn(Base):
     }
     user_id = Column(UUID(as_uuid=True), ForeignKey(
         "users.id"), primary_key=True)
-    logined_by = Column(DateTime, default=datetime.datetime.utcnow)
+    logined_by = Column(DateTime, default=datetime.utcnow)
     user_agent = Column(Text)
     user_device_type = Column(Text(), nullable=True, primary_key=True)
 
@@ -46,9 +53,9 @@ class User(Base):
     id = Column(UUID(as_uuid=True), primary_key=True,
                 default=uuid.uuid4, unique=True, nullable=False)
     login = Column(String(30), unique=True, nullable=False)
-    password = Column(String, nullable=False)
-    email = Column(String, nullable=False)
-    firstname = Column(String(255), nullable=True)
+    password_hash = Column(String(100), nullable=False)
+    email = Column(String(255), nullable=False)
+    admin = Column(Boolean, default=False)
 
     users_sign_in = relationship('UserSignIn')
 
@@ -57,4 +64,37 @@ class User(Base):
         self.password = password
 
     def __repr__(self):
-        return f'<User {self.login}>'
+        return f'<User {self.login}, ID: {self.id}, admin={self.admin}>'
+
+    @property
+    def password(self):
+        raise AttributeError("password: write-only field")
+
+    @password.setter
+    def set_password(self, password):
+        hash_bytes = bcrypt.hashpw(password, bcrypt.gensalt())
+        self.password_hash = hash_bytes.decode('utf-8')
+
+    def check_password(self, password):
+        return bcrypt.checkpw(self.password_hash, password)
+
+    @classmethod
+    def find_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
+
+    def _create_access_token(self) -> bytes:
+        """Функция создаёт access jwt токен"""
+        now = datetime.now(timezone.utc)
+        expire = now + timedelta(minutes=15)
+        payload = dict(exp=expire, iat=now, sub=self.id, admin=self.admin)
+        access_token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        return access_token
+
+    def _create_refresh_token(self) -> bytes:
+        """Функция создаёт refresh jwt токен"""
+        now = datetime.now(timezone.utc)
+        expire = now + timedelta(days=7)
+        payload = dict(exp=expire, iat=now, sub=self.id)
+        refresh_token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        add_refresh_token(refresh_token)
+        return refresh_token

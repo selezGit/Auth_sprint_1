@@ -1,26 +1,19 @@
 from flask import Flask
 from .config import DevelopmentConfig
 from flask_cors import CORS
-from app.proto.auth_pb2_grpc import AuthStub
 import grpc
+
+cors = CORS()
 
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
     app.config.from_object(DevelopmentConfig)
-    from .views import auth, user
+    from .api.v1 import api_bp
 
-    app.register_blueprint(auth.bp)
-    app.register_blueprint(user.bp)
-
-    CORS(app)
+    app.register_blueprint(api_bp)
+    cors.init_app(app)
     return app
 
 
-def connect_server_auth():
-    channel = grpc.insecure_channel("server-auth:50051")
-    client = AuthStub(channel)
-    return client
-
-client = connect_server_auth()

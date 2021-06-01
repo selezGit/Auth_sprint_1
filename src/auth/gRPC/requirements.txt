@@ -3,3 +3,6 @@ grpcio-tools ~= 1.30
 pytest ~= 5.4
 SQLAlchemy==1.4.15
 psycopg2-binary==2.8.6
+bcrypt==3.2.0
+redis==3.5.3
+PyJWT==2.1.0
