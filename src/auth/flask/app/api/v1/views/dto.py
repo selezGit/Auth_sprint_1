@@ -12,7 +12,7 @@ auth_reqparser.add_argument(
 auth_reqparser.add_argument(
     name="password", type=str, location="form", required=True, nullable=False
 )
-
+ 
 user_model = Model(
     "User",
     {

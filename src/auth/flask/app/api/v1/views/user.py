@@ -2,13 +2,17 @@ from http import HTTPStatus
 
 from flask import jsonify
 from flask_restx import Namespace, Resource
+from .dto import auth_reqparser, user_model
 
 user_ns = Namespace(name='user', validate=True)
-
+user_ns.models[user_model.name] = user_model
 
 @user_ns.route('/', endpoint='user')
 class User(Resource):
+    @user_ns.expect(auth_reqparser)
+    @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     def post(self):
+        print('hello3')
         return jsonify(
             status='success',
             message='hello world!',
