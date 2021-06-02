@@ -1,4 +1,4 @@
-from app import create_app#, connect_server_auth
+from app import create_app
 
 app = create_app()
 

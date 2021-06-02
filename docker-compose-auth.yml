@@ -8,7 +8,9 @@ services:
     depends_on: 
       - db-auth
       - redis-auth
-    command: uwsgi --ini uwsgi.ini --enable-threads
+    volumes:
+      - ./src/auth/flask:/usr/src/flask
+    command: gunicorn main:app -w 2 --threads 2 -b 0.0.0.0:5000 --reload
     networks:
       - microservices
   server-auth:
