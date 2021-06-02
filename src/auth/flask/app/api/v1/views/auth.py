@@ -13,15 +13,19 @@ auth_ns.models[user_model.name] = user_model
 client = connect_server_auth()
 
 
-@auth_ns.route('/login')
+@auth_ns.route('/login', endpoint="auth_login")
 class Login(Resource):
     @auth_ns.expect(auth_reqparser)
     @auth_ns.response(int(HTTPStatus.OK), "Login succeeded.")
     @auth_ns.response(int(HTTPStatus.UNAUTHORIZED), "email or password does not match")
     @auth_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @auth_ns.response(int(HTTPStatus.INTERNAL_SERVER_ERROR), "Internal server error.")
-    def get(self):
-        login_data = LoginRequest(login='sdf', password='asdf')
+    def post(self):
+        request_data = auth_reqparser.parse_args()
+        email = request_data.get("email")
+        password = request_data.get("password")
+
+        login_data = LoginRequest(login=email, password=password)
         response = client.Login(login_data)
         print(response)
         return jsonify(

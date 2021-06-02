@@ -15,7 +15,7 @@ authorizations = {
 api = Api(
     api_bp,
     version="1.0",
-    title="API Auth with JWT tokens",
+    title="API Auth with JWT token",
     description="Welcome to the Swagger UI documentation site!",
     authorizations=authorizations,
 )

@@ -5,19 +5,27 @@ from flask_restx import Namespace, Resource
 from .dto import auth_reqparser, user_model
 
 user_ns = Namespace(name='user', validate=True)
-user_ns.models[user_model.name] = user_model
+# user_ns.models[user_model.name] = user_model
 
 @user_ns.route('/', endpoint='user')
 class User(Resource):
     @user_ns.expect(auth_reqparser)
+    @user_ns.response(int(HTTPStatus.CREATED), "New user was successfully created.")
+    @user_ns.response(int(HTTPStatus.CONFLICT), "Email address is already registered.")
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
+    @user_ns.response(int(HTTPStatus.INTERNAL_SERVER_ERROR), "Internal server error.")
     def post(self):
-        print('hello3')
-        return jsonify(
+        request_data = auth_reqparser.parse_args()
+        email = request_data.get("email")
+        password = request_data.get("password")
+        response = jsonify(
             status='success',
             message='hello world!',
             token_type='bearer'
         )
+
+        response.status_code = 201
+        return response
 
     def delete(self):
         return jsonify(
