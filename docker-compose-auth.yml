@@ -16,6 +16,8 @@ services:
   server-auth:
     build:
       context: src/auth/gRPC
+    env_file:
+      - ./src/auth/.env
     depends_on:
       - db-auth
       - redis-auth

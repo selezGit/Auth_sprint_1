@@ -9,7 +9,7 @@ from fastapi_pagination import add_pagination
 
 from api.v1 import film, genre, person
 from core import config
-from core.logger import LOGGING
+from core.logger_config import LOGGING
 from db import elastic, redis
 
 app = FastAPI(

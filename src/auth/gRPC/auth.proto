@@ -4,6 +4,8 @@ syntax = "proto3";
 message LoginRequest {
     string login = 1;
     string password = 2;
+    string user_agent = 3;
+
 }
 
 message LoginResponse {
@@ -15,6 +17,7 @@ message LoginResponse {
 
 message RefreshTokenRequest {
     string refresh_token = 1;
+    string user_agent = 2;
 }
 
 message RefreshTokenResponse {
@@ -26,6 +29,7 @@ message RefreshTokenResponse {
 
 message LogoutRequest {
     string access_token = 1;
+    string user_agent = 2;
 }
 
 message LogoutResponse {
@@ -33,6 +37,8 @@ message LogoutResponse {
 
 message TestTokenRequest {
     string access_token = 1;
+    string user_agent = 2;
+
 }
 
 message TestTokenResponse {
@@ -59,12 +65,15 @@ message UserResponse {
 
 message UserGetRequest {
     string access_token = 1;
+    string user_agent = 2;
+
 }
 
 message UserGetListRequest {
     string access_token = 1;
-    int32 skip = 2;
-    int32 limit = 3;
+    string user_agent = 2;
+    int32 skip = 3;
+    int32 limit = 4;
 }
 message UserGetListResponse {
     int32 skip = 1;
@@ -74,18 +83,22 @@ message UserGetListResponse {
 
 message UserUpdateEmailRequest {
     string access_code = 1;
-    string password = 2;
-    string email = 3;
+    string user_agent = 2;
+    string password = 3;
+    string email = 4;
 }
 
 message UserDeleteMe {
     string access_code = 1;
+    string user_agent = 2;
 }
 
 message UserUpdatePasswordRequest {
     string old_password = 1;
     string new_password = 2;
     string access_code = 3;
+    string user_agent = 4;
+
 }
 
 
@@ -99,6 +112,8 @@ message UserHistoryRequest {
     string access_code = 1;
     int32 skip = 2;
     int32 limit = 3;
+    string user_agent = 4;
+
 }
 
 message UserHistoryResponse {

@@ -35,12 +35,13 @@ class UserSignIn(Base):
         'postgresql_partition_by': 'LIST (user_device_type)',
         'listeners': [('after_create', create_partition)],
     }
-    user_id = Column(UUID(as_uuid=True), ForeignKey(
-        "users.id"), primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
     logined_by = Column(DateTime, default=datetime.utcnow)
     user_agent = Column(Text)
-    user_device_type = Column(Text(), nullable=True, primary_key=True)
+    user_device_type = Column(String, primary_key=True)
 
+    active = Column(Boolean, default=True)
     user = relationship("User")
 
     def __repr__(self):
@@ -50,8 +51,7 @@ class UserSignIn(Base):
 class User(Base):
     __tablename__ = 'users'
 
-    id = Column(UUID(as_uuid=True), primary_key=True,
-                default=uuid.uuid4, unique=True, nullable=False)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     login = Column(String(30), unique=True, nullable=False)
     password_hash = Column(String(100), nullable=False)
     email = Column(String(255), nullable=False)
@@ -59,42 +59,11 @@ class User(Base):
 
     users_sign_in = relationship('UserSignIn')
 
-    def __init__(self, login, password):
-        self.login = login
-        self.password = password
-
     def __repr__(self):
         return f'<User {self.login}, ID: {self.id}, admin={self.admin}>'
 
-    @property
-    def password(self):
-        raise AttributeError("password: write-only field")
-
-    @password.setter
-    def set_password(self, password):
-        hash_bytes = bcrypt.hashpw(password, bcrypt.gensalt())
-        self.password_hash = hash_bytes.decode('utf-8')
-
-    def check_password(self, password):
-        return bcrypt.checkpw(self.password_hash, password)
-
-    @classmethod
-    def find_by_email(cls, email):
-        return cls.query.filter_by(email=email).first()
-
-    def _create_access_token(self) -> bytes:
-        """Функция создаёт access jwt токен"""
-        now = datetime.now(timezone.utc)
-        expire = now + timedelta(minutes=15)
-        payload = dict(exp=expire, iat=now, sub=self.id, admin=self.admin)
-        access_token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        return access_token
-
-    def _create_refresh_token(self) -> bytes:
-        """Функция создаёт refresh jwt токен"""
-        now = datetime.now(timezone.utc)
-        expire = now + timedelta(days=7)
-        payload = dict(exp=expire, iat=now, sub=self.id)
-        refresh_token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        add_refresh_token(refresh_token)
-        return refresh_token
+    def __init__(self, login: str = None, password_hash: str = None, email: str = None, admin: bool = False):
+        self.login = login
+        self.password_hash = password_hash
+        self.email = email
+        self.admin = admin

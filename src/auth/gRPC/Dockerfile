@@ -15,9 +15,10 @@ RUN pip3 install --upgrade pip
 
 COPY /requirements.txt .
 RUN pip3 --no-cache-dir install -r requirements.txt
+
 # copy project
 COPY . /usr/src/gRPC
 
 EXPOSE 50051
 
-ENTRYPOINT [ "python", "auth.py" ]
+ENTRYPOINT [ "python", "main.py" ]
