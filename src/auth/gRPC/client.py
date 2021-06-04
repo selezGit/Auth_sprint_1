@@ -30,7 +30,6 @@
 # print(client.Login(request))
 
 
-
 # import grpc
 # from auth_pb2_grpc import UserStub, AuthStub
 # from auth_pb2 import UserCreateRequest, LoginRequest, RefreshTokenRequest
@@ -39,7 +38,6 @@
 #                               user_agent='SMART')
 # client = AuthStub(channel)
 # print(client.RefreshToken(request))
-
 
 
 # import grpc
@@ -54,8 +52,11 @@
 import grpc
 from auth_pb2_grpc import UserStub, AuthStub
 from auth_pb2 import UserHistoryRequest
+
 channel = grpc.insecure_channel("localhost:50051")
-request = UserHistoryRequest(access_token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMTJjNTI5NGEtYzVkNS00NTAyLWIyOTktYjVjZDRiMDJhYzI4IiwiYWdlbnQiOiJTTUFSVCIsIm5vdyI6MTYyMjgxOTM1OC44NzA4OSwiZXhwaXJlIjoxNjIyODIwMjU4Ljg3MDg5fQ.O57oUnOfnIsY6pd982fpM8DKqM0__P0rylQ3RQ0Idtk",
-                             user_agent='SMART')
+request = UserHistoryRequest(
+    access_token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMTJjNTI5NGEtYzVkNS00NTAyLWIyOTktYjVjZDRiMDJhYzI4IiwiYWdlbnQiOiJTTUFSVCIsIm5vdyI6MTYyMjgxOTM1OC44NzA4OSwiZXhwaXJlIjoxNjIyODIwMjU4Ljg3MDg5fQ.O57oUnOfnIsY6pd982fpM8DKqM0__P0rylQ3RQ0Idtk",
+    user_agent="SMART",
+)
 client = UserStub(channel)
 print(client.GetHistory(request))

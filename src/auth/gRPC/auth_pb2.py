@@ -6,1153 +6,1782 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
 
-
-
 DESCRIPTOR = _descriptor.FileDescriptor(
-  name='auth.proto',
-  package='',
-  syntax='proto3',
-  serialized_options=None,
-  create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\nauth.proto\"C\n\x0cLoginRequest\x12\r\n\x05login\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x12\n\nuser_agent\x18\x03 \x01(\t\"d\n\rLoginResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x15\n\rrefresh_token\x18\x02 \x01(\t\x12\x12\n\nexpires_in\x18\x03 \x01(\t\x12\x12\n\ntoken_type\x18\x04 \x01(\t\"@\n\x13RefreshTokenRequest\x12\x15\n\rrefresh_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t\"k\n\x14RefreshTokenResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x15\n\rrefresh_token\x18\x02 \x01(\t\x12\x12\n\nexpires_in\x18\x03 \x01(\t\x12\x12\n\ntoken_type\x18\x04 \x01(\t\"9\n\rLogoutRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t\"\x10\n\x0eLogoutResponse\"<\n\x10TestTokenRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t\"\x13\n\x11TestTokenResponse\"C\n\x11UserCreateRequest\x12\r\n\x05login\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\r\n\x05\x65mail\x18\x03 \x01(\t\"8\n\x0cUserResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05login\x18\x02 \x01(\t\x12\r\n\x05\x65mail\x18\x03 \x01(\t\":\n\x0eUserGetRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t\"[\n\x12UserGetListRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t\x12\x0c\n\x04skip\x18\x03 \x01(\x05\x12\r\n\x05limit\x18\x04 \x01(\x05\"P\n\x13UserGetListResponse\x12\x0c\n\x04skip\x18\x01 \x01(\x05\x12\r\n\x05limit\x18\x02 \x01(\x05\x12\x1c\n\x05users\x18\x03 \x03(\x0b\x32\r.UserResponse\"c\n\x16UserUpdateEmailRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\x12\r\n\x05\x65mail\x18\x04 \x01(\t\"8\n\x0cUserDeleteMe\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t\"q\n\x19UserUpdatePasswordRequest\x12\x14\n\x0cold_password\x18\x01 \x01(\t\x12\x14\n\x0cnew_password\x18\x02 \x01(\t\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x03 \x01(\t\x12\x12\n\nuser_agent\x18\x04 \x01(\t\"T\n\x0bUserHistory\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65vice_type\x18\x03 \x01(\t\x12\x0e\n\x06\x61\x63tive\x18\x04 \x01(\x08\"[\n\x12UserHistoryRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x0c\n\x04skip\x18\x02 \x01(\x05\x12\r\n\x05limit\x18\x03 \x01(\x05\x12\x12\n\nuser_agent\x18\x04 \x01(\t\"1\n\x13UserHistoryResponse\x12\x1a\n\x04rows\x18\x02 \x03(\x0b\x32\x0c.UserHistory2\xca\x01\n\x04\x41uth\x12&\n\x05Login\x12\r.LoginRequest\x1a\x0e.LoginResponse\x12;\n\x0cRefreshToken\x12\x14.RefreshTokenRequest\x1a\x15.RefreshTokenResponse\x12)\n\x06Logout\x12\x0e.LogoutRequest\x1a\x0f.LogoutResponse\x12\x32\n\tTestToken\x12\x11.TestTokenRequest\x1a\x12.TestTokenResponse2\xe7\x02\n\x04User\x12%\n\x03Get\x12\x0f.UserGetRequest\x1a\r.UserResponse\x12\x34\n\x07GetList\x12\x13.UserGetListRequest\x1a\x14.UserGetListResponse\x12\x37\n\nGetHistory\x12\x13.UserHistoryRequest\x1a\x14.UserHistoryResponse\x12+\n\x06\x43reate\x12\x12.UserCreateRequest\x1a\r.UserResponse\x12\x35\n\x0bUpdateEmail\x12\x17.UserUpdateEmailRequest\x1a\r.UserResponse\x12;\n\x0eUpdatePassword\x12\x1a.UserUpdatePasswordRequest\x1a\r.UserResponse\x12(\n\x08\x44\x65leteMe\x12\r.UserDeleteMe\x1a\r.UserResponseb\x06proto3'
+    name="auth.proto",
+    package="",
+    syntax="proto3",
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+    serialized_pb=b'\n\nauth.proto"C\n\x0cLoginRequest\x12\r\n\x05login\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x12\n\nuser_agent\x18\x03 \x01(\t"d\n\rLoginResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x15\n\rrefresh_token\x18\x02 \x01(\t\x12\x12\n\nexpires_in\x18\x03 \x01(\t\x12\x12\n\ntoken_type\x18\x04 \x01(\t"@\n\x13RefreshTokenRequest\x12\x15\n\rrefresh_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t"k\n\x14RefreshTokenResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x15\n\rrefresh_token\x18\x02 \x01(\t\x12\x12\n\nexpires_in\x18\x03 \x01(\t\x12\x12\n\ntoken_type\x18\x04 \x01(\t"9\n\rLogoutRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t"\x10\n\x0eLogoutResponse"<\n\x10TestTokenRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t"\x13\n\x11TestTokenResponse"C\n\x11UserCreateRequest\x12\r\n\x05login\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\r\n\x05\x65mail\x18\x03 \x01(\t"8\n\x0cUserResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05login\x18\x02 \x01(\t\x12\r\n\x05\x65mail\x18\x03 \x01(\t":\n\x0eUserGetRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t"[\n\x12UserGetListRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t\x12\x0c\n\x04skip\x18\x03 \x01(\x05\x12\r\n\x05limit\x18\x04 \x01(\x05"P\n\x13UserGetListResponse\x12\x0c\n\x04skip\x18\x01 \x01(\x05\x12\r\n\x05limit\x18\x02 \x01(\x05\x12\x1c\n\x05users\x18\x03 \x03(\x0b\x32\r.UserResponse"c\n\x16UserUpdateEmailRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\x12\r\n\x05\x65mail\x18\x04 \x01(\t"8\n\x0cUserDeleteMe\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t"q\n\x19UserUpdatePasswordRequest\x12\x14\n\x0cold_password\x18\x01 \x01(\t\x12\x14\n\x0cnew_password\x18\x02 \x01(\t\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x03 \x01(\t\x12\x12\n\nuser_agent\x18\x04 \x01(\t"T\n\x0bUserHistory\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\t\x12\x12\n\nuser_agent\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65vice_type\x18\x03 \x01(\t\x12\x0e\n\x06\x61\x63tive\x18\x04 \x01(\x08"[\n\x12UserHistoryRequest\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x0c\n\x04skip\x18\x02 \x01(\x05\x12\r\n\x05limit\x18\x03 \x01(\x05\x12\x12\n\nuser_agent\x18\x04 \x01(\t"1\n\x13UserHistoryResponse\x12\x1a\n\x04rows\x18\x02 \x03(\x0b\x32\x0c.UserHistory2\xca\x01\n\x04\x41uth\x12&\n\x05Login\x12\r.LoginRequest\x1a\x0e.LoginResponse\x12;\n\x0cRefreshToken\x12\x14.RefreshTokenRequest\x1a\x15.RefreshTokenResponse\x12)\n\x06Logout\x12\x0e.LogoutRequest\x1a\x0f.LogoutResponse\x12\x32\n\tTestToken\x12\x11.TestTokenRequest\x1a\x12.TestTokenResponse2\xe7\x02\n\x04User\x12%\n\x03Get\x12\x0f.UserGetRequest\x1a\r.UserResponse\x12\x34\n\x07GetList\x12\x13.UserGetListRequest\x1a\x14.UserGetListResponse\x12\x37\n\nGetHistory\x12\x13.UserHistoryRequest\x1a\x14.UserHistoryResponse\x12+\n\x06\x43reate\x12\x12.UserCreateRequest\x1a\r.UserResponse\x12\x35\n\x0bUpdateEmail\x12\x17.UserUpdateEmailRequest\x1a\r.UserResponse\x12;\n\x0eUpdatePassword\x12\x1a.UserUpdatePasswordRequest\x1a\r.UserResponse\x12(\n\x08\x44\x65leteMe\x12\r.UserDeleteMe\x1a\r.UserResponseb\x06proto3',
 )
 
 
-
-
 _LOGINREQUEST = _descriptor.Descriptor(
-  name='LoginRequest',
-  full_name='LoginRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='login', full_name='LoginRequest.login', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='password', full_name='LoginRequest.password', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='user_agent', full_name='LoginRequest.user_agent', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=14,
-  serialized_end=81,
+    name="LoginRequest",
+    full_name="LoginRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="login",
+            full_name="LoginRequest.login",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="password",
+            full_name="LoginRequest.password",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="user_agent",
+            full_name="LoginRequest.user_agent",
+            index=2,
+            number=3,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=14,
+    serialized_end=81,
 )
 
 
 _LOGINRESPONSE = _descriptor.Descriptor(
-  name='LoginResponse',
-  full_name='LoginResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='access_token', full_name='LoginResponse.access_token', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='refresh_token', full_name='LoginResponse.refresh_token', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='expires_in', full_name='LoginResponse.expires_in', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='token_type', full_name='LoginResponse.token_type', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=83,
-  serialized_end=183,
+    name="LoginResponse",
+    full_name="LoginResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="access_token",
+            full_name="LoginResponse.access_token",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="refresh_token",
+            full_name="LoginResponse.refresh_token",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="expires_in",
+            full_name="LoginResponse.expires_in",
+            index=2,
+            number=3,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="token_type",
+            full_name="LoginResponse.token_type",
+            index=3,
+            number=4,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=83,
+    serialized_end=183,
 )
 
 
 _REFRESHTOKENREQUEST = _descriptor.Descriptor(
-  name='RefreshTokenRequest',
-  full_name='RefreshTokenRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='refresh_token', full_name='RefreshTokenRequest.refresh_token', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='user_agent', full_name='RefreshTokenRequest.user_agent', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=185,
-  serialized_end=249,
+    name="RefreshTokenRequest",
+    full_name="RefreshTokenRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="refresh_token",
+            full_name="RefreshTokenRequest.refresh_token",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="user_agent",
+            full_name="RefreshTokenRequest.user_agent",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=185,
+    serialized_end=249,
 )
 
 
 _REFRESHTOKENRESPONSE = _descriptor.Descriptor(
-  name='RefreshTokenResponse',
-  full_name='RefreshTokenResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='access_token', full_name='RefreshTokenResponse.access_token', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='refresh_token', full_name='RefreshTokenResponse.refresh_token', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='expires_in', full_name='RefreshTokenResponse.expires_in', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='token_type', full_name='RefreshTokenResponse.token_type', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=251,
-  serialized_end=358,
+    name="RefreshTokenResponse",
+    full_name="RefreshTokenResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="access_token",
+            full_name="RefreshTokenResponse.access_token",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="refresh_token",
+            full_name="RefreshTokenResponse.refresh_token",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="expires_in",
+            full_name="RefreshTokenResponse.expires_in",
+            index=2,
+            number=3,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="token_type",
+            full_name="RefreshTokenResponse.token_type",
+            index=3,
+            number=4,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=251,
+    serialized_end=358,
 )
 
 
 _LOGOUTREQUEST = _descriptor.Descriptor(
-  name='LogoutRequest',
-  full_name='LogoutRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='access_token', full_name='LogoutRequest.access_token', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='user_agent', full_name='LogoutRequest.user_agent', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=360,
-  serialized_end=417,
+    name="LogoutRequest",
+    full_name="LogoutRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="access_token",
+            full_name="LogoutRequest.access_token",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="user_agent",
+            full_name="LogoutRequest.user_agent",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=360,
+    serialized_end=417,
 )
 
 
 _LOGOUTRESPONSE = _descriptor.Descriptor(
-  name='LogoutResponse',
-  full_name='LogoutResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=419,
-  serialized_end=435,
+    name="LogoutResponse",
+    full_name="LogoutResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=419,
+    serialized_end=435,
 )
 
 
 _TESTTOKENREQUEST = _descriptor.Descriptor(
-  name='TestTokenRequest',
-  full_name='TestTokenRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='access_token', full_name='TestTokenRequest.access_token', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='user_agent', full_name='TestTokenRequest.user_agent', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=437,
-  serialized_end=497,
+    name="TestTokenRequest",
+    full_name="TestTokenRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="access_token",
+            full_name="TestTokenRequest.access_token",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="user_agent",
+            full_name="TestTokenRequest.user_agent",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=437,
+    serialized_end=497,
 )
 
 
 _TESTTOKENRESPONSE = _descriptor.Descriptor(
-  name='TestTokenResponse',
-  full_name='TestTokenResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=499,
-  serialized_end=518,
+    name="TestTokenResponse",
+    full_name="TestTokenResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=499,
+    serialized_end=518,
 )
 
 
 _USERCREATEREQUEST = _descriptor.Descriptor(
-  name='UserCreateRequest',
-  full_name='UserCreateRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='login', full_name='UserCreateRequest.login', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='password', full_name='UserCreateRequest.password', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='email', full_name='UserCreateRequest.email', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=520,
-  serialized_end=587,
+    name="UserCreateRequest",
+    full_name="UserCreateRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="login",
+            full_name="UserCreateRequest.login",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="password",
+            full_name="UserCreateRequest.password",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="email",
+            full_name="UserCreateRequest.email",
+            index=2,
+            number=3,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=520,
+    serialized_end=587,
 )
 
 
 _USERRESPONSE = _descriptor.Descriptor(
-  name='UserResponse',
-  full_name='UserResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='id', full_name='UserResponse.id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='login', full_name='UserResponse.login', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='email', full_name='UserResponse.email', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=589,
-  serialized_end=645,
+    name="UserResponse",
+    full_name="UserResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="id",
+            full_name="UserResponse.id",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="login",
+            full_name="UserResponse.login",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="email",
+            full_name="UserResponse.email",
+            index=2,
+            number=3,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=589,
+    serialized_end=645,
 )
 
 
 _USERGETREQUEST = _descriptor.Descriptor(
-  name='UserGetRequest',
-  full_name='UserGetRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='access_token', full_name='UserGetRequest.access_token', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='user_agent', full_name='UserGetRequest.user_agent', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=647,
-  serialized_end=705,
+    name="UserGetRequest",
+    full_name="UserGetRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="access_token",
+            full_name="UserGetRequest.access_token",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="user_agent",
+            full_name="UserGetRequest.user_agent",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=647,
+    serialized_end=705,
 )
 
 
 _USERGETLISTREQUEST = _descriptor.Descriptor(
-  name='UserGetListRequest',
-  full_name='UserGetListRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='access_token', full_name='UserGetListRequest.access_token', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='user_agent', full_name='UserGetListRequest.user_agent', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='skip', full_name='UserGetListRequest.skip', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='limit', full_name='UserGetListRequest.limit', index=3,
-      number=4, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=707,
-  serialized_end=798,
+    name="UserGetListRequest",
+    full_name="UserGetListRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="access_token",
+            full_name="UserGetListRequest.access_token",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="user_agent",
+            full_name="UserGetListRequest.user_agent",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="skip",
+            full_name="UserGetListRequest.skip",
+            index=2,
+            number=3,
+            type=5,
+            cpp_type=1,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="limit",
+            full_name="UserGetListRequest.limit",
+            index=3,
+            number=4,
+            type=5,
+            cpp_type=1,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=707,
+    serialized_end=798,
 )
 
 
 _USERGETLISTRESPONSE = _descriptor.Descriptor(
-  name='UserGetListResponse',
-  full_name='UserGetListResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='skip', full_name='UserGetListResponse.skip', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='limit', full_name='UserGetListResponse.limit', index=1,
-      number=2, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='users', full_name='UserGetListResponse.users', index=2,
-      number=3, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=800,
-  serialized_end=880,
+    name="UserGetListResponse",
+    full_name="UserGetListResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="skip",
+            full_name="UserGetListResponse.skip",
+            index=0,
+            number=1,
+            type=5,
+            cpp_type=1,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="limit",
+            full_name="UserGetListResponse.limit",
+            index=1,
+            number=2,
+            type=5,
+            cpp_type=1,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="users",
+            full_name="UserGetListResponse.users",
+            index=2,
+            number=3,
+            type=11,
+            cpp_type=10,
+            label=3,
+            has_default_value=False,
+            default_value=[],
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=800,
+    serialized_end=880,
 )
 
 
 _USERUPDATEEMAILREQUEST = _descriptor.Descriptor(
-  name='UserUpdateEmailRequest',
-  full_name='UserUpdateEmailRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='access_token', full_name='UserUpdateEmailRequest.access_token', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='user_agent', full_name='UserUpdateEmailRequest.user_agent', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='password', full_name='UserUpdateEmailRequest.password', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='email', full_name='UserUpdateEmailRequest.email', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=882,
-  serialized_end=981,
+    name="UserUpdateEmailRequest",
+    full_name="UserUpdateEmailRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="access_token",
+            full_name="UserUpdateEmailRequest.access_token",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="user_agent",
+            full_name="UserUpdateEmailRequest.user_agent",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="password",
+            full_name="UserUpdateEmailRequest.password",
+            index=2,
+            number=3,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="email",
+            full_name="UserUpdateEmailRequest.email",
+            index=3,
+            number=4,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=882,
+    serialized_end=981,
 )
 
 
 _USERDELETEME = _descriptor.Descriptor(
-  name='UserDeleteMe',
-  full_name='UserDeleteMe',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='access_token', full_name='UserDeleteMe.access_token', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='user_agent', full_name='UserDeleteMe.user_agent', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=983,
-  serialized_end=1039,
+    name="UserDeleteMe",
+    full_name="UserDeleteMe",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="access_token",
+            full_name="UserDeleteMe.access_token",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="user_agent",
+            full_name="UserDeleteMe.user_agent",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=983,
+    serialized_end=1039,
 )
 
 
 _USERUPDATEPASSWORDREQUEST = _descriptor.Descriptor(
-  name='UserUpdatePasswordRequest',
-  full_name='UserUpdatePasswordRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='old_password', full_name='UserUpdatePasswordRequest.old_password', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='new_password', full_name='UserUpdatePasswordRequest.new_password', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='access_token', full_name='UserUpdatePasswordRequest.access_token', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='user_agent', full_name='UserUpdatePasswordRequest.user_agent', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1041,
-  serialized_end=1154,
+    name="UserUpdatePasswordRequest",
+    full_name="UserUpdatePasswordRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="old_password",
+            full_name="UserUpdatePasswordRequest.old_password",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="new_password",
+            full_name="UserUpdatePasswordRequest.new_password",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="access_token",
+            full_name="UserUpdatePasswordRequest.access_token",
+            index=2,
+            number=3,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="user_agent",
+            full_name="UserUpdatePasswordRequest.user_agent",
+            index=3,
+            number=4,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1041,
+    serialized_end=1154,
 )
 
 
 _USERHISTORY = _descriptor.Descriptor(
-  name='UserHistory',
-  full_name='UserHistory',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='date', full_name='UserHistory.date', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='user_agent', full_name='UserHistory.user_agent', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='device_type', full_name='UserHistory.device_type', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='active', full_name='UserHistory.active', index=3,
-      number=4, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1156,
-  serialized_end=1240,
+    name="UserHistory",
+    full_name="UserHistory",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="date",
+            full_name="UserHistory.date",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="user_agent",
+            full_name="UserHistory.user_agent",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="device_type",
+            full_name="UserHistory.device_type",
+            index=2,
+            number=3,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="active",
+            full_name="UserHistory.active",
+            index=3,
+            number=4,
+            type=8,
+            cpp_type=7,
+            label=1,
+            has_default_value=False,
+            default_value=False,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1156,
+    serialized_end=1240,
 )
 
 
 _USERHISTORYREQUEST = _descriptor.Descriptor(
-  name='UserHistoryRequest',
-  full_name='UserHistoryRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='access_token', full_name='UserHistoryRequest.access_token', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='skip', full_name='UserHistoryRequest.skip', index=1,
-      number=2, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='limit', full_name='UserHistoryRequest.limit', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='user_agent', full_name='UserHistoryRequest.user_agent', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1242,
-  serialized_end=1333,
+    name="UserHistoryRequest",
+    full_name="UserHistoryRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="access_token",
+            full_name="UserHistoryRequest.access_token",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="skip",
+            full_name="UserHistoryRequest.skip",
+            index=1,
+            number=2,
+            type=5,
+            cpp_type=1,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="limit",
+            full_name="UserHistoryRequest.limit",
+            index=2,
+            number=3,
+            type=5,
+            cpp_type=1,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="user_agent",
+            full_name="UserHistoryRequest.user_agent",
+            index=3,
+            number=4,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1242,
+    serialized_end=1333,
 )
 
 
 _USERHISTORYRESPONSE = _descriptor.Descriptor(
-  name='UserHistoryResponse',
-  full_name='UserHistoryResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='rows', full_name='UserHistoryResponse.rows', index=0,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1335,
-  serialized_end=1384,
+    name="UserHistoryResponse",
+    full_name="UserHistoryResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="rows",
+            full_name="UserHistoryResponse.rows",
+            index=0,
+            number=2,
+            type=11,
+            cpp_type=10,
+            label=3,
+            has_default_value=False,
+            default_value=[],
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1335,
+    serialized_end=1384,
 )
 
-_USERGETLISTRESPONSE.fields_by_name['users'].message_type = _USERRESPONSE
-_USERHISTORYRESPONSE.fields_by_name['rows'].message_type = _USERHISTORY
-DESCRIPTOR.message_types_by_name['LoginRequest'] = _LOGINREQUEST
-DESCRIPTOR.message_types_by_name['LoginResponse'] = _LOGINRESPONSE
-DESCRIPTOR.message_types_by_name['RefreshTokenRequest'] = _REFRESHTOKENREQUEST
-DESCRIPTOR.message_types_by_name['RefreshTokenResponse'] = _REFRESHTOKENRESPONSE
-DESCRIPTOR.message_types_by_name['LogoutRequest'] = _LOGOUTREQUEST
-DESCRIPTOR.message_types_by_name['LogoutResponse'] = _LOGOUTRESPONSE
-DESCRIPTOR.message_types_by_name['TestTokenRequest'] = _TESTTOKENREQUEST
-DESCRIPTOR.message_types_by_name['TestTokenResponse'] = _TESTTOKENRESPONSE
-DESCRIPTOR.message_types_by_name['UserCreateRequest'] = _USERCREATEREQUEST
-DESCRIPTOR.message_types_by_name['UserResponse'] = _USERRESPONSE
-DESCRIPTOR.message_types_by_name['UserGetRequest'] = _USERGETREQUEST
-DESCRIPTOR.message_types_by_name['UserGetListRequest'] = _USERGETLISTREQUEST
-DESCRIPTOR.message_types_by_name['UserGetListResponse'] = _USERGETLISTRESPONSE
-DESCRIPTOR.message_types_by_name['UserUpdateEmailRequest'] = _USERUPDATEEMAILREQUEST
-DESCRIPTOR.message_types_by_name['UserDeleteMe'] = _USERDELETEME
-DESCRIPTOR.message_types_by_name['UserUpdatePasswordRequest'] = _USERUPDATEPASSWORDREQUEST
-DESCRIPTOR.message_types_by_name['UserHistory'] = _USERHISTORY
-DESCRIPTOR.message_types_by_name['UserHistoryRequest'] = _USERHISTORYREQUEST
-DESCRIPTOR.message_types_by_name['UserHistoryResponse'] = _USERHISTORYRESPONSE
+_USERGETLISTRESPONSE.fields_by_name["users"].message_type = _USERRESPONSE
+_USERHISTORYRESPONSE.fields_by_name["rows"].message_type = _USERHISTORY
+DESCRIPTOR.message_types_by_name["LoginRequest"] = _LOGINREQUEST
+DESCRIPTOR.message_types_by_name["LoginResponse"] = _LOGINRESPONSE
+DESCRIPTOR.message_types_by_name["RefreshTokenRequest"] = _REFRESHTOKENREQUEST
+DESCRIPTOR.message_types_by_name["RefreshTokenResponse"] = _REFRESHTOKENRESPONSE
+DESCRIPTOR.message_types_by_name["LogoutRequest"] = _LOGOUTREQUEST
+DESCRIPTOR.message_types_by_name["LogoutResponse"] = _LOGOUTRESPONSE
+DESCRIPTOR.message_types_by_name["TestTokenRequest"] = _TESTTOKENREQUEST
+DESCRIPTOR.message_types_by_name["TestTokenResponse"] = _TESTTOKENRESPONSE
+DESCRIPTOR.message_types_by_name["UserCreateRequest"] = _USERCREATEREQUEST
+DESCRIPTOR.message_types_by_name["UserResponse"] = _USERRESPONSE
+DESCRIPTOR.message_types_by_name["UserGetRequest"] = _USERGETREQUEST
+DESCRIPTOR.message_types_by_name["UserGetListRequest"] = _USERGETLISTREQUEST
+DESCRIPTOR.message_types_by_name["UserGetListResponse"] = _USERGETLISTRESPONSE
+DESCRIPTOR.message_types_by_name["UserUpdateEmailRequest"] = _USERUPDATEEMAILREQUEST
+DESCRIPTOR.message_types_by_name["UserDeleteMe"] = _USERDELETEME
+DESCRIPTOR.message_types_by_name[
+    "UserUpdatePasswordRequest"
+] = _USERUPDATEPASSWORDREQUEST
+DESCRIPTOR.message_types_by_name["UserHistory"] = _USERHISTORY
+DESCRIPTOR.message_types_by_name["UserHistoryRequest"] = _USERHISTORYREQUEST
+DESCRIPTOR.message_types_by_name["UserHistoryResponse"] = _USERHISTORYRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-LoginRequest = _reflection.GeneratedProtocolMessageType('LoginRequest', (_message.Message,), {
-  'DESCRIPTOR' : _LOGINREQUEST,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:LoginRequest)
-  })
+LoginRequest = _reflection.GeneratedProtocolMessageType(
+    "LoginRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _LOGINREQUEST,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:LoginRequest)
+    },
+)
 _sym_db.RegisterMessage(LoginRequest)
 
-LoginResponse = _reflection.GeneratedProtocolMessageType('LoginResponse', (_message.Message,), {
-  'DESCRIPTOR' : _LOGINRESPONSE,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:LoginResponse)
-  })
+LoginResponse = _reflection.GeneratedProtocolMessageType(
+    "LoginResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _LOGINRESPONSE,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:LoginResponse)
+    },
+)
 _sym_db.RegisterMessage(LoginResponse)
 
-RefreshTokenRequest = _reflection.GeneratedProtocolMessageType('RefreshTokenRequest', (_message.Message,), {
-  'DESCRIPTOR' : _REFRESHTOKENREQUEST,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:RefreshTokenRequest)
-  })
+RefreshTokenRequest = _reflection.GeneratedProtocolMessageType(
+    "RefreshTokenRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _REFRESHTOKENREQUEST,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:RefreshTokenRequest)
+    },
+)
 _sym_db.RegisterMessage(RefreshTokenRequest)
 
-RefreshTokenResponse = _reflection.GeneratedProtocolMessageType('RefreshTokenResponse', (_message.Message,), {
-  'DESCRIPTOR' : _REFRESHTOKENRESPONSE,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:RefreshTokenResponse)
-  })
+RefreshTokenResponse = _reflection.GeneratedProtocolMessageType(
+    "RefreshTokenResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _REFRESHTOKENRESPONSE,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:RefreshTokenResponse)
+    },
+)
 _sym_db.RegisterMessage(RefreshTokenResponse)
 
-LogoutRequest = _reflection.GeneratedProtocolMessageType('LogoutRequest', (_message.Message,), {
-  'DESCRIPTOR' : _LOGOUTREQUEST,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:LogoutRequest)
-  })
+LogoutRequest = _reflection.GeneratedProtocolMessageType(
+    "LogoutRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _LOGOUTREQUEST,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:LogoutRequest)
+    },
+)
 _sym_db.RegisterMessage(LogoutRequest)
 
-LogoutResponse = _reflection.GeneratedProtocolMessageType('LogoutResponse', (_message.Message,), {
-  'DESCRIPTOR' : _LOGOUTRESPONSE,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:LogoutResponse)
-  })
+LogoutResponse = _reflection.GeneratedProtocolMessageType(
+    "LogoutResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _LOGOUTRESPONSE,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:LogoutResponse)
+    },
+)
 _sym_db.RegisterMessage(LogoutResponse)
 
-TestTokenRequest = _reflection.GeneratedProtocolMessageType('TestTokenRequest', (_message.Message,), {
-  'DESCRIPTOR' : _TESTTOKENREQUEST,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:TestTokenRequest)
-  })
+TestTokenRequest = _reflection.GeneratedProtocolMessageType(
+    "TestTokenRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _TESTTOKENREQUEST,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:TestTokenRequest)
+    },
+)
 _sym_db.RegisterMessage(TestTokenRequest)
 
-TestTokenResponse = _reflection.GeneratedProtocolMessageType('TestTokenResponse', (_message.Message,), {
-  'DESCRIPTOR' : _TESTTOKENRESPONSE,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:TestTokenResponse)
-  })
+TestTokenResponse = _reflection.GeneratedProtocolMessageType(
+    "TestTokenResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _TESTTOKENRESPONSE,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:TestTokenResponse)
+    },
+)
 _sym_db.RegisterMessage(TestTokenResponse)
 
-UserCreateRequest = _reflection.GeneratedProtocolMessageType('UserCreateRequest', (_message.Message,), {
-  'DESCRIPTOR' : _USERCREATEREQUEST,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:UserCreateRequest)
-  })
+UserCreateRequest = _reflection.GeneratedProtocolMessageType(
+    "UserCreateRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _USERCREATEREQUEST,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:UserCreateRequest)
+    },
+)
 _sym_db.RegisterMessage(UserCreateRequest)
 
-UserResponse = _reflection.GeneratedProtocolMessageType('UserResponse', (_message.Message,), {
-  'DESCRIPTOR' : _USERRESPONSE,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:UserResponse)
-  })
+UserResponse = _reflection.GeneratedProtocolMessageType(
+    "UserResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _USERRESPONSE,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:UserResponse)
+    },
+)
 _sym_db.RegisterMessage(UserResponse)
 
-UserGetRequest = _reflection.GeneratedProtocolMessageType('UserGetRequest', (_message.Message,), {
-  'DESCRIPTOR' : _USERGETREQUEST,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:UserGetRequest)
-  })
+UserGetRequest = _reflection.GeneratedProtocolMessageType(
+    "UserGetRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _USERGETREQUEST,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:UserGetRequest)
+    },
+)
 _sym_db.RegisterMessage(UserGetRequest)
 
-UserGetListRequest = _reflection.GeneratedProtocolMessageType('UserGetListRequest', (_message.Message,), {
-  'DESCRIPTOR' : _USERGETLISTREQUEST,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:UserGetListRequest)
-  })
+UserGetListRequest = _reflection.GeneratedProtocolMessageType(
+    "UserGetListRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _USERGETLISTREQUEST,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:UserGetListRequest)
+    },
+)
 _sym_db.RegisterMessage(UserGetListRequest)
 
-UserGetListResponse = _reflection.GeneratedProtocolMessageType('UserGetListResponse', (_message.Message,), {
-  'DESCRIPTOR' : _USERGETLISTRESPONSE,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:UserGetListResponse)
-  })
+UserGetListResponse = _reflection.GeneratedProtocolMessageType(
+    "UserGetListResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _USERGETLISTRESPONSE,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:UserGetListResponse)
+    },
+)
 _sym_db.RegisterMessage(UserGetListResponse)
 
-UserUpdateEmailRequest = _reflection.GeneratedProtocolMessageType('UserUpdateEmailRequest', (_message.Message,), {
-  'DESCRIPTOR' : _USERUPDATEEMAILREQUEST,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:UserUpdateEmailRequest)
-  })
+UserUpdateEmailRequest = _reflection.GeneratedProtocolMessageType(
+    "UserUpdateEmailRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _USERUPDATEEMAILREQUEST,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:UserUpdateEmailRequest)
+    },
+)
 _sym_db.RegisterMessage(UserUpdateEmailRequest)
 
-UserDeleteMe = _reflection.GeneratedProtocolMessageType('UserDeleteMe', (_message.Message,), {
-  'DESCRIPTOR' : _USERDELETEME,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:UserDeleteMe)
-  })
+UserDeleteMe = _reflection.GeneratedProtocolMessageType(
+    "UserDeleteMe",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _USERDELETEME,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:UserDeleteMe)
+    },
+)
 _sym_db.RegisterMessage(UserDeleteMe)
 
-UserUpdatePasswordRequest = _reflection.GeneratedProtocolMessageType('UserUpdatePasswordRequest', (_message.Message,), {
-  'DESCRIPTOR' : _USERUPDATEPASSWORDREQUEST,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:UserUpdatePasswordRequest)
-  })
+UserUpdatePasswordRequest = _reflection.GeneratedProtocolMessageType(
+    "UserUpdatePasswordRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _USERUPDATEPASSWORDREQUEST,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:UserUpdatePasswordRequest)
+    },
+)
 _sym_db.RegisterMessage(UserUpdatePasswordRequest)
 
-UserHistory = _reflection.GeneratedProtocolMessageType('UserHistory', (_message.Message,), {
-  'DESCRIPTOR' : _USERHISTORY,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:UserHistory)
-  })
+UserHistory = _reflection.GeneratedProtocolMessageType(
+    "UserHistory",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _USERHISTORY,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:UserHistory)
+    },
+)
 _sym_db.RegisterMessage(UserHistory)
 
-UserHistoryRequest = _reflection.GeneratedProtocolMessageType('UserHistoryRequest', (_message.Message,), {
-  'DESCRIPTOR' : _USERHISTORYREQUEST,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:UserHistoryRequest)
-  })
+UserHistoryRequest = _reflection.GeneratedProtocolMessageType(
+    "UserHistoryRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _USERHISTORYREQUEST,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:UserHistoryRequest)
+    },
+)
 _sym_db.RegisterMessage(UserHistoryRequest)
 
-UserHistoryResponse = _reflection.GeneratedProtocolMessageType('UserHistoryResponse', (_message.Message,), {
-  'DESCRIPTOR' : _USERHISTORYRESPONSE,
-  '__module__' : 'auth_pb2'
-  # @@protoc_insertion_point(class_scope:UserHistoryResponse)
-  })
+UserHistoryResponse = _reflection.GeneratedProtocolMessageType(
+    "UserHistoryResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _USERHISTORYRESPONSE,
+        "__module__": "auth_pb2"
+        # @@protoc_insertion_point(class_scope:UserHistoryResponse)
+    },
+)
 _sym_db.RegisterMessage(UserHistoryResponse)
 
 
-
 _AUTH = _descriptor.ServiceDescriptor(
-  name='Auth',
-  full_name='Auth',
-  file=DESCRIPTOR,
-  index=0,
-  serialized_options=None,
-  create_key=_descriptor._internal_create_key,
-  serialized_start=1387,
-  serialized_end=1589,
-  methods=[
-  _descriptor.MethodDescriptor(
-    name='Login',
-    full_name='Auth.Login',
+    name="Auth",
+    full_name="Auth",
+    file=DESCRIPTOR,
     index=0,
-    containing_service=None,
-    input_type=_LOGINREQUEST,
-    output_type=_LOGINRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='RefreshToken',
-    full_name='Auth.RefreshToken',
-    index=1,
-    containing_service=None,
-    input_type=_REFRESHTOKENREQUEST,
-    output_type=_REFRESHTOKENRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='Logout',
-    full_name='Auth.Logout',
-    index=2,
-    containing_service=None,
-    input_type=_LOGOUTREQUEST,
-    output_type=_LOGOUTRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='TestToken',
-    full_name='Auth.TestToken',
-    index=3,
-    containing_service=None,
-    input_type=_TESTTOKENREQUEST,
-    output_type=_TESTTOKENRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-])
+    serialized_start=1387,
+    serialized_end=1589,
+    methods=[
+        _descriptor.MethodDescriptor(
+            name="Login",
+            full_name="Auth.Login",
+            index=0,
+            containing_service=None,
+            input_type=_LOGINREQUEST,
+            output_type=_LOGINRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="RefreshToken",
+            full_name="Auth.RefreshToken",
+            index=1,
+            containing_service=None,
+            input_type=_REFRESHTOKENREQUEST,
+            output_type=_REFRESHTOKENRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="Logout",
+            full_name="Auth.Logout",
+            index=2,
+            containing_service=None,
+            input_type=_LOGOUTREQUEST,
+            output_type=_LOGOUTRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="TestToken",
+            full_name="Auth.TestToken",
+            index=3,
+            containing_service=None,
+            input_type=_TESTTOKENREQUEST,
+            output_type=_TESTTOKENRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+)
 _sym_db.RegisterServiceDescriptor(_AUTH)
 
-DESCRIPTOR.services_by_name['Auth'] = _AUTH
+DESCRIPTOR.services_by_name["Auth"] = _AUTH
 
 
 _USER = _descriptor.ServiceDescriptor(
-  name='User',
-  full_name='User',
-  file=DESCRIPTOR,
-  index=1,
-  serialized_options=None,
-  create_key=_descriptor._internal_create_key,
-  serialized_start=1592,
-  serialized_end=1951,
-  methods=[
-  _descriptor.MethodDescriptor(
-    name='Get',
-    full_name='User.Get',
-    index=0,
-    containing_service=None,
-    input_type=_USERGETREQUEST,
-    output_type=_USERRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='GetList',
-    full_name='User.GetList',
+    name="User",
+    full_name="User",
+    file=DESCRIPTOR,
     index=1,
-    containing_service=None,
-    input_type=_USERGETLISTREQUEST,
-    output_type=_USERGETLISTRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='GetHistory',
-    full_name='User.GetHistory',
-    index=2,
-    containing_service=None,
-    input_type=_USERHISTORYREQUEST,
-    output_type=_USERHISTORYRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='Create',
-    full_name='User.Create',
-    index=3,
-    containing_service=None,
-    input_type=_USERCREATEREQUEST,
-    output_type=_USERRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='UpdateEmail',
-    full_name='User.UpdateEmail',
-    index=4,
-    containing_service=None,
-    input_type=_USERUPDATEEMAILREQUEST,
-    output_type=_USERRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='UpdatePassword',
-    full_name='User.UpdatePassword',
-    index=5,
-    containing_service=None,
-    input_type=_USERUPDATEPASSWORDREQUEST,
-    output_type=_USERRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='DeleteMe',
-    full_name='User.DeleteMe',
-    index=6,
-    containing_service=None,
-    input_type=_USERDELETEME,
-    output_type=_USERRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-])
+    serialized_start=1592,
+    serialized_end=1951,
+    methods=[
+        _descriptor.MethodDescriptor(
+            name="Get",
+            full_name="User.Get",
+            index=0,
+            containing_service=None,
+            input_type=_USERGETREQUEST,
+            output_type=_USERRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="GetList",
+            full_name="User.GetList",
+            index=1,
+            containing_service=None,
+            input_type=_USERGETLISTREQUEST,
+            output_type=_USERGETLISTRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="GetHistory",
+            full_name="User.GetHistory",
+            index=2,
+            containing_service=None,
+            input_type=_USERHISTORYREQUEST,
+            output_type=_USERHISTORYRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="Create",
+            full_name="User.Create",
+            index=3,
+            containing_service=None,
+            input_type=_USERCREATEREQUEST,
+            output_type=_USERRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="UpdateEmail",
+            full_name="User.UpdateEmail",
+            index=4,
+            containing_service=None,
+            input_type=_USERUPDATEEMAILREQUEST,
+            output_type=_USERRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="UpdatePassword",
+            full_name="User.UpdatePassword",
+            index=5,
+            containing_service=None,
+            input_type=_USERUPDATEPASSWORDREQUEST,
+            output_type=_USERRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="DeleteMe",
+            full_name="User.DeleteMe",
+            index=6,
+            containing_service=None,
+            input_type=_USERDELETEME,
+            output_type=_USERRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+)
 _sym_db.RegisterServiceDescriptor(_USER)
 
-DESCRIPTOR.services_by_name['User'] = _USER
+DESCRIPTOR.services_by_name["User"] = _USER
 
 # @@protoc_insertion_point(module_scope)

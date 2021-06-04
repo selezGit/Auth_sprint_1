@@ -41,11 +41,7 @@ def encrypt(data: str, session_key: bytes) -> EncryptedMessage:
     cipher_aes = AES.new(session_key, AES.MODE_EAX)
     ciphertext, digest = cipher_aes.encrypt_and_digest(data.encode())
 
-    return EncryptedMessage(
-        nonce=cipher_aes.nonce,
-        digest=digest,
-        message=ciphertext
-    )
+    return EncryptedMessage(nonce=cipher_aes.nonce, digest=digest, message=ciphertext)
 
 
 def decrypt(encrypted: EncryptedMessage, session_key: bytes) -> str:
@@ -56,17 +52,17 @@ def decrypt(encrypted: EncryptedMessage, session_key: bytes) -> str:
     return data.decode()
 
 
-if __name__ == '__main__':
-    raw = 'onlinecinema'
+if __name__ == "__main__":
+    raw = "onlinecinema"
     session_key = get_random_bytes(16)
     priv_key, pub_key = generate_key_pair()
 
     # Сторона сервера
     encrypted_session_key = encrypt_session_key(session_key, pub_key)
     encrypted_data = encrypt(raw, session_key)
-    print('Зашифрованный сессионный ключ:', encrypted_session_key)
-    print('Зашифрованное сообщение:', encrypted_data.message)
+    print("Зашифрованный сессионный ключ:", encrypted_session_key)
+    print("Зашифрованное сообщение:", encrypted_data.message)
 
     # Сторона клиента
     decrypted_session_key = decrypt_session_key(encrypted_session_key, priv_key)
-    print('Расшифрованное сообщение:', decrypt(encrypted_data, decrypted_session_key))
+    print("Расшифрованное сообщение:", decrypt(encrypted_data, decrypted_session_key))
