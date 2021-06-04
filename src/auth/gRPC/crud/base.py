@@ -19,6 +19,9 @@ class CRUDBase:
     def get(self, db: Session, id: Any) -> Optional[ModelType]:
         return db.query(self.model).filter(self.model.id == id).first()
 
+    def get_by(self, db: Session, **kwargs):
+        return db.query(self.model).filter_by(**kwargs).first()
+
     def create(self, db: Session, *, obj_in: Dict) -> ModelType:
         db_obj = self.model(**obj_in)  # type: ignore
         db.add(db_obj)
@@ -35,7 +38,7 @@ class CRUDBase:
     ) -> ModelType:
         obj_data = object_as_dict(db_obj)
         update_data = obj_in
-        
+
         for field in obj_data:
             if field in update_data:
                 setattr(db_obj, field, update_data[field])
