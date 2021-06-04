@@ -12,7 +12,7 @@ class CRUDUser(CRUDBase):
         self.model = User
 
     def check_password(self, user: User, password: str):
-        return bcrypt.checkpw(user.password_hash.encode(), password.encode())
+        return bcrypt.checkpw(password.encode(), user.password_hash.encode())
 
     def get_by(self, db: Session, **kwargs):
         return db.query(User).filter_by(**kwargs).first()

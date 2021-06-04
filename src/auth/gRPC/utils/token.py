@@ -14,7 +14,7 @@ from db.no_sql_db import add_refresh_token, add_to_blacklist, del_refresh_token
 from core.config import settings
 
 
-def create_access_token(payload: Dict) -> bytes:
+def create_access_token(payload: Dict) -> Tuple[datetime, datetime, bytes]:
     now = datetime.now(timezone.utc)
     expire = now + timedelta(minutes=15)
     expire = expire.timestamp()
@@ -38,3 +38,11 @@ def create_refresh_token(payload: Dict) -> Tuple[datetime, datetime, bytes]:
 
 def decode_token(token: str) -> Dict:
     return jwt.decode(token, key=settings.SECRET_KEY, algorithms='HS256')
+
+
+def check_expire(expire: str) -> bool:
+    now = datetime.now(timezone.utc)
+    now = now.timestamp()
+    if now > float(expire):
+        return False
+    return True

@@ -1,11 +1,17 @@
 from http import HTTPStatus
 
+from app.api.v1.db.request_model import auth_reqparser, user_model
+from app.api.v1.proto.auth_pb2 import UserCreateRequest
+from app.api.v1.proto.connector import ConnectServerGRPC
 from flask import jsonify
 from flask_restx import Namespace, Resource
-from .dto import auth_reqparser, user_model
 
 user_ns = Namespace(name='user', validate=True)
-# user_ns.models[user_model.name] = user_model
+user_ns.models[user_model.name] = user_model
+
+
+client = ConnectServerGRPC().conn_user()
+
 
 @user_ns.route('/', endpoint='user')
 class User(Resource):
@@ -16,14 +22,15 @@ class User(Resource):
     @user_ns.response(int(HTTPStatus.INTERNAL_SERVER_ERROR), "Internal server error.")
     def post(self):
         request_data = auth_reqparser.parse_args()
+        login = request_data.get("login")
         email = request_data.get("email")
         password = request_data.get("password")
-        response = jsonify(
-            status='success',
-            message='hello world!',
-            token_type='bearer'
-        )
+        registration_data = UserCreateRequest(
+            login=login, email=email, password=password)
+        response = client.Create(registration_data)
 
+        print(response)
+        response = jsonify(status='Success')
         response.status_code = 201
         return response
 

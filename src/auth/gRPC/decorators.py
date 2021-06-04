@@ -1,9 +1,6 @@
-
 from functools import wraps
 from flask import request
 from db.db_models import User
-
-
 
 
 def token_required(f):

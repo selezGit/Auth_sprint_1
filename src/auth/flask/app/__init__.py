@@ -1,7 +1,7 @@
 from flask import Flask
-from .config import DevelopmentConfig
 from flask_cors import CORS
-import grpc
+
+from app.config import DevelopmentConfig
 
 cors = CORS()
 
@@ -15,5 +15,3 @@ def create_app():
     app.register_blueprint(api_bp)
     cors.init_app(app)
     return app
-
-
