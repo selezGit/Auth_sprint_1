@@ -1,31 +1,31 @@
-from flask import Blueprint, request
-from app.api.v1.proto.auth_pb2 import LoginRequest
-from app.api.v1.proto.connector import connect_server_auth
-from flask import jsonify, make_response
 from http import HTTPStatus
+
+from app.api.v1.db.request_model import auth_loginparser, user_model
+from app.api.v1.proto.auth_pb2 import LoginRequest
+from app.api.v1.proto.connector import ConnectServerGRPC
+from flask import Blueprint, jsonify, make_response, request
 from flask_restx import Namespace, Resource
-from .dto import auth_reqparser, user_model
 
 auth_ns = Namespace(name="auth", validate=True)
 
 auth_ns.models[user_model.name] = user_model
 
-client = connect_server_auth()
+client = ConnectServerGRPC().conn_auth()
 
 
 @auth_ns.route('/login', endpoint="auth_login")
 class Login(Resource):
-    @auth_ns.expect(auth_reqparser)
+    @auth_ns.expect(auth_loginparser)
     @auth_ns.response(int(HTTPStatus.OK), "Login succeeded.")
     @auth_ns.response(int(HTTPStatus.UNAUTHORIZED), "email or password does not match")
     @auth_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @auth_ns.response(int(HTTPStatus.INTERNAL_SERVER_ERROR), "Internal server error.")
     def post(self):
-        request_data = auth_reqparser.parse_args()
-        email = request_data.get("email")
+        request_data = auth_loginparser.parse_args()
+        login = request_data.get("login")
         password = request_data.get("password")
 
-        login_data = LoginRequest(login=email, password=password)
+        login_data = LoginRequest(login=login, password=password)
         response = client.Login(login_data)
         print(response)
         return jsonify(
@@ -33,6 +33,7 @@ class Login(Resource):
             message='hello world',
             token_type='bearer'
         )
+
 
 @auth_ns.route('/refresh', endpoint='auth_refresh')
 class Refresh(Resource):
@@ -42,6 +43,7 @@ class Refresh(Resource):
             message='hello world',
             token_type='bearer'
         )
+
 
 @auth_ns.route('/logout', endpoint='auth_logout')
 class Logout(Resource):
@@ -61,6 +63,3 @@ class TestToken(Resource):
             message='hello world!',
             token_type='bearer'
         )
-
-
-
