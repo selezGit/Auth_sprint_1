@@ -1,36 +1,22 @@
 """Parsers and serializers for /auth API endpoints."""
-from flask_restx import Model
-from flask_restx.fields import Boolean, String
 from flask_restx.inputs import email
 from flask_restx.reqparse import RequestParser
 
-auth_reqparser = RequestParser(bundle_errors=True)
-auth_reqparser.add_argument(
-    name="login", type=str, location="form", required=True, nullable=False
-)
-auth_reqparser.add_argument(
-    name="email", type=email(check=True), location="form", required=True, nullable=False
-)
-auth_reqparser.add_argument(
-    name="password", type=str, location="form", required=True, nullable=False
-)
-
-auth_loginparser = RequestParser(bundle_errors=True)
-auth_loginparser.add_argument(
-    name="login", type=str, location="form", required=True, nullable=False
-)
-auth_loginparser.add_argument(
-    name="password", type=str, location="form", required=True, nullable=False
-)
+auth_register_parser = RequestParser(bundle_errors=True)
+auth_register_parser.add_argument(name="login", type=str, location="form", required=True, nullable=False)
+auth_register_parser.add_argument(name="email", type=email(check=True), location="form", required=True, nullable=False)
+auth_register_parser.add_argument(name="password", type=str, location="form", required=True, nullable=False)
 
 
-user_model = Model(
-    "User",
-    {
-        "login": String,
-        "email": String,
-        "id": String,
-        "admin": Boolean,
-        "expires_in": String,
-    }
-)
+auth_login_parser = RequestParser(bundle_errors=True)
+auth_login_parser.add_argument(name="login", type=str, location="form", required=True, nullable=False)
+auth_login_parser.add_argument(name="password", type=str, location="form", required=True, nullable=False)
+
+change_password_parser = RequestParser(bundle_errors=True)
+change_password_parser.add_argument(name="old_password", type=str, location="form", required=True, nullable=False)
+change_password_parser.add_argument(name="new_password", type=str, location="form", required=True, nullable=False)
+
+change_email_parser = RequestParser(bundle_errors=True)
+change_email_parser.add_argument(name="email", type=email(check=True), location="form", required=True, nullable=False)
+change_email_parser.add_argument(name="password", type=str, location="form", required=True, nullable=False)
+
