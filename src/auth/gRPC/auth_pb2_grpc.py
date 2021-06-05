@@ -87,7 +87,8 @@ def add_AuthServicer_to_server(servicer, server):
             response_serializer=auth__pb2.TestTokenResponse.SerializeToString,
         ),
     }
-    generic_handler = grpc.method_handlers_generic_handler("Auth", rpc_method_handlers)
+    generic_handler = grpc.method_handlers_generic_handler(
+        "Auth", rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -342,7 +343,8 @@ def add_UserServicer_to_server(servicer, server):
             response_serializer=auth__pb2.UserResponse.SerializeToString,
         ),
     }
-    generic_handler = grpc.method_handlers_generic_handler("User", rpc_method_handlers)
+    generic_handler = grpc.method_handlers_generic_handler(
+        "User", rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 

@@ -132,7 +132,7 @@ class UserService(auth_pb2_grpc.UserServicer):
                 context.set_details('user_agent not valid for this token!')
                 return UserResponse()
 
-            user = crud.user.get_by(id=payload['user_id'])
+            user = crud.user.get_by(db=db, id=payload['user_id'])
             if not crud.user.check_password(user=user, password=request.password):
                 context.set_code(grpc.StatusCode.UNAUTHENTICATED)
                 context.set_details(f"password not valid!")

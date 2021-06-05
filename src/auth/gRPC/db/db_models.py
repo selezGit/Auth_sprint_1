@@ -36,7 +36,7 @@ class UserSignIn(Base):
         'postgresql_partition_by': 'LIST (user_device_type)',
         'listeners': [('after_create', create_partition)],
     }
-    # id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), primary_key=True)
     logined_by = Column(DateTime, default=datetime.utcnow)
     user_agent = Column(Text)
