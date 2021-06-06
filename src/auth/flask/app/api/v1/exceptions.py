@@ -1,3 +1,4 @@
+from functools import wraps
 from http import HTTPStatus
 
 import grpc
@@ -22,4 +23,13 @@ class LocalException(Exception):
         return response
 
 
-error_handler = LocalException()
+def error_handler(f):
+    @wraps(f)
+    def inner(*args, **kwargs):
+        try:
+            return f(*args, **kwargs)
+
+        except grpc.RpcError as rpc_error:
+            return LocalException().get_response(status=rpc_error.code(),
+                                                 details=rpc_error.details())
+    return inner

@@ -10,6 +10,7 @@ from flask_restx import Namespace, Resource
 auth_ns = Namespace(name="auth", validate=True)
 auth_ns.models[auth_login_model.name] = auth_login_model
 
+
 @auth_ns.route('/login', endpoint="auth_login")
 class Login(Resource):
     @auth_ns.expect(auth_login_parser)
