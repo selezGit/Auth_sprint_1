@@ -1,5 +1,6 @@
 import json
 from http import HTTPStatus
+import re
 
 import grpc
 from app.api.v1.exceptions import error_handler
@@ -9,20 +10,20 @@ from app.api.v1.proto.auth_pb2 import (UserCreateRequest, UserDeleteMe,
                                        UserUpdatePasswordRequest)
 from app.api.v1.proto.connector import ConnectServerGRPC
 from flask import jsonify
-from flask.globals import request
+from google.protobuf.json_format import MessageToDict
+
 
 client = ConnectServerGRPC().conn_user()
 
 
 def create_user_logic(login: str, email: str, password: str):
+    create_user_data = UserCreateRequest(
+            login=login, email=email, password=password)
     try:
-        request = client.Create(UserCreateRequest(
-            login=login, email=email, password=password))
-        response = jsonify(status='Success',
-                           user_id=request.id,
-                           login=request.login,
-                           email=request.email)
+        request = MessageToDict(client.Create(create_user_data))
+        response = jsonify(request)
         response.status_code = HTTPStatus.CREATED
+
         return response
 
     except grpc.RpcError as rpc_error:
@@ -31,44 +32,35 @@ def create_user_logic(login: str, email: str, password: str):
 
 
 def delete_user_logic(access_token: str, user_agent: str):
+    delete_user_data = UserDeleteMe(access_token, user_agent)
     try:
-        request = client.DeleteMe(UserDeleteMe(access_token, user_agent))
-        response = jsonify(status='Success',
-                           message='user successfully deleted')
-        response.status_code = HTTPStatus.OK
+        request = client.DeleteMe(delete_user_data)
         # TODO логика удаления не работает, выкидывает ошибку
-        return response
+        return jsonify(message='user successfully deleted')
+
     except grpc.RpcError as rpc_error:
         return error_handler.get_response(status=rpc_error.code(),
                                           details=rpc_error.details())
 
 
 def get_user_logic(access_token: str, user_agent: str):
+    get_user_data = UserGetRequest(
+            access_token=access_token, user_agent=user_agent)
     try:
-        request = client.Get(UserGetRequest(
-            access_token=access_token, user_agent=user_agent))
-        print(request)
-        response = jsonify(status='Success',
-                           user_id=request.id,
-                           login=request.login,
-                           email=request.email)
-        response.status_code = HTTPStatus.OK
-        return response
+        request = MessageToDict(client.Get(get_user_data))
+        return jsonify(request)
+
     except grpc.RpcError as rpc_error:
         return error_handler.get_response(status=rpc_error.code(),
                                           details=rpc_error.details())
 
 
 def history_logic(access_token: str, user_agent: str):
+    history_data = UserHistoryRequest(
+            access_token=access_token, user_agent=user_agent)
     try:
-
-        request = client.GetHistory(UserHistoryRequest(
-            access_token=access_token, user_agent=user_agent))
-        response = jsonify(status='Success')
-        response.status_code = HTTPStatus.OK
-
-        # TODO тут не понятно как возвращать данные, они в неизвестном мне формате
-        return request.rows
+        request = MessageToDict(client.GetHistory(history_data))
+        return jsonify(request)
 
     except grpc.RpcError as rpc_error:
         return error_handler.get_response(status=rpc_error.code(),
