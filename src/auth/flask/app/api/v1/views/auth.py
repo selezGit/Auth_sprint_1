@@ -1,18 +1,19 @@
 from http import HTTPStatus
 
 from app.api.v1.db.request_model import auth_login_parser
+from app.api.v1.db.response_model import auth_login_model
 from app.api.v1.services.auth import (login_logic, logout_logic, refresh_logic,
                                       test_logic)
 from flask import request
 from flask_restx import Namespace, Resource
 
 auth_ns = Namespace(name="auth", validate=True)
-
+auth_ns.models[auth_login_model.name] = auth_login_model
 
 @auth_ns.route('/login', endpoint="auth_login")
 class Login(Resource):
     @auth_ns.expect(auth_login_parser)
-    @auth_ns.response(int(HTTPStatus.OK), "Login succeeded.")
+    @auth_ns.response(int(HTTPStatus.OK), "Success", auth_login_model)
     @auth_ns.response(int(HTTPStatus.UNAUTHORIZED), "email or password does not match")
     @auth_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @auth_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
@@ -29,7 +30,7 @@ class Login(Resource):
 @auth_ns.route('/refresh', endpoint='auth_refresh')
 class Refresh(Resource):
     @auth_ns.doc(security="refresh_token")
-    @auth_ns.response(int(HTTPStatus.OK), "")
+    @auth_ns.response(int(HTTPStatus.OK), "Success", auth_login_model)
     @auth_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @auth_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
     @auth_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
@@ -57,7 +58,7 @@ class Logout(Resource):
 @auth_ns.route('/test-token', endpoint='auth_test_token')
 class TestToken(Resource):
     @auth_ns.doc(security="access_token")
-    @auth_ns.response(int(HTTPStatus.OK), "Log out succeeded, token is no longer valid.")
+    @auth_ns.response(int(HTTPStatus.OK), "Token is valid")
     @auth_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @auth_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
     @auth_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")

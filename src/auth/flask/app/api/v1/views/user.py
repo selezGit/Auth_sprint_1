@@ -3,6 +3,7 @@ from http import HTTPStatus
 from app.api.v1.db.request_model import (auth_register_parser,
                                          change_email_parser,
                                          change_password_parser)
+from app.api.v1.db.response_model import user_create_model, user_history_model, nested_history_model
 from app.api.v1.services.user import (change_email_logic,
                                       change_password_logic, create_user_logic,
                                       delete_user_logic, get_user_logic,
@@ -11,12 +12,14 @@ from flask import request
 from flask_restx import Namespace, Resource
 
 user_ns = Namespace(name='user', validate=True)
-
+user_ns.models[user_create_model.name] = user_create_model
+user_ns.models[nested_history_model.name] = nested_history_model
+user_ns.models[user_history_model.name] = user_history_model
 
 @user_ns.route('/', endpoint='user')
 class User(Resource):
     @user_ns.expect(auth_register_parser)
-    @user_ns.response(int(HTTPStatus.CREATED), "New user was successfully created.")
+    @user_ns.response(int(HTTPStatus.CREATED), "Success", user_create_model)
     @user_ns.response(int(HTTPStatus.CONFLICT), "Email address is already registered.")
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
@@ -28,7 +31,7 @@ class User(Resource):
         return create_user_logic(login=login, email=email, password=password)
 
     @user_ns.doc(security="access_token")
-    @user_ns.response(int(HTTPStatus.OK), "user successfully deleted.")
+    @user_ns.response(int(HTTPStatus.OK), "Success")
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
@@ -41,7 +44,7 @@ class User(Resource):
 @user_ns.route('/me', endpoint='user_me')
 class UserMe(Resource):
     @user_ns.doc(security="access_token")
-    @user_ns.response(int(HTTPStatus.OK), "")
+    @user_ns.response(int(HTTPStatus.OK), "Success", user_create_model)
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
@@ -53,8 +56,8 @@ class UserMe(Resource):
 
 @user_ns.route('/change-password', endpoint='user_change_password')
 class ChangePassword(Resource):
-    @user_ns.expect(change_password_parser)
     @user_ns.doc(security="access_token")
+    @user_ns.expect(change_password_parser)
     @user_ns.response(int(HTTPStatus.OK), "password changed successfully")
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
@@ -73,8 +76,8 @@ class ChangePassword(Resource):
 
 @user_ns.route('/change-email', endpoint='user_change_email')
 class ChangeEmail(Resource):
-    @user_ns.expect(change_email_parser)
     @user_ns.doc(security="access_token")
+    @user_ns.expect(change_email_parser)
     @user_ns.response(int(HTTPStatus.OK), "email changed successfully")
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
@@ -92,9 +95,9 @@ class ChangeEmail(Resource):
 
 
 @user_ns.route('/history', endpoint='user_history')
-class ChangeEmail(Resource):
+class History(Resource):
     @user_ns.doc(security="access_token")
-    @user_ns.response(int(HTTPStatus.OK), "user successfully deleted.")
+    @user_ns.response(int(HTTPStatus.OK), "user successfully deleted.", user_history_model)
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
