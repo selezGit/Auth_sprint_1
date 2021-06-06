@@ -3,7 +3,9 @@ from http import HTTPStatus
 from app.api.v1.db.request_model import (auth_register_parser,
                                          change_email_parser,
                                          change_password_parser)
-from app.api.v1.db.response_model import user_create_model, user_history_model, nested_history_model
+from app.api.v1.db.response_model import (nested_history_model,
+                                          user_create_model,
+                                          user_history_model)
 from app.api.v1.services.user import (change_email_logic,
                                       change_password_logic, create_user_logic,
                                       delete_user_logic, get_user_logic,
@@ -15,6 +17,7 @@ user_ns = Namespace(name='user', validate=True)
 user_ns.models[user_create_model.name] = user_create_model
 user_ns.models[nested_history_model.name] = nested_history_model
 user_ns.models[user_history_model.name] = user_history_model
+
 
 @user_ns.route('/', endpoint='user')
 class User(Resource):

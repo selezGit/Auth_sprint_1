@@ -1,7 +1,5 @@
-"""Parsers and serializers for /auth API endpoints."""
 from flask_restx import Model
-from flask_restx.fields import String, Boolean, Integer, Float, List, DateTime, Nested
-
+from flask_restx.fields import String, Boolean, Integer, List, DateTime, Nested
 
 
 auth_login_model = Model(
