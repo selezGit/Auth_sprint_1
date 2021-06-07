@@ -1,4 +1,5 @@
 import datetime
+from enum import unique
 import os
 import uuid
 from datetime import datetime, timedelta, timezone
@@ -36,7 +37,7 @@ class UserSignIn(Base):
         'listeners': [('after_create', create_partition)],
     }
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), primary_key=True)
     logined_by = Column(DateTime, default=datetime.utcnow)
     user_agent = Column(Text)
     user_device_type = Column(String, primary_key=True)
@@ -54,7 +55,7 @@ class User(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     login = Column(String(30), unique=True, nullable=False)
     password_hash = Column(String(100), nullable=False)
-    email = Column(String(255), nullable=False)
+    email = Column(String(255), nullable=False, unique=True)
     admin = Column(Boolean, default=False)
 
     users_sign_in = relationship('UserSignIn')

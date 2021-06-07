@@ -73,6 +73,7 @@ class AuthService(auth_pb2_grpc.AuthServicer):
                                      token_type="Barear")
         except Exception as e:
             logger.info(e)
+            return LoginResponse()
         return response
 
     def RefreshToken(self, request: RefreshTokenRequest, context):
