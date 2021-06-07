@@ -36,10 +36,11 @@ class CRUDUser(CRUDBase):
             db_obj: User,
             obj_in: Dict[str, Any],
     ) -> User:
-        password = obj_in.pop('password')
-        hash_bytes = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-        password_hash = hash_bytes.decode('utf-8')
-        obj_in['password_hash'] = password_hash
+        if obj_in.get('password'):
+            password = obj_in.pop('password')
+            hash_bytes = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+            password_hash = hash_bytes.decode('utf-8')
+            obj_in['password_hash'] = password_hash
         return super().update(db=db, db_obj=db_obj, obj_in=obj_in)
 
 

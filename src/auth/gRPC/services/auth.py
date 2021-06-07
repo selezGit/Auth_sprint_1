@@ -5,13 +5,37 @@ import grpc
 import crud
 from utils.token import create_access_token, create_refresh_token, check_expire, decode_token
 from auth_pb2 import LoginRequest, LoginResponse, RefreshTokenResponse, RefreshTokenRequest, LogoutRequest, \
-    LogoutResponse
+    LogoutResponse, TestTokenRequest, TestTokenResponse
 from db.db import get_db, db as db_session
 from loguru import logger
 from user_agents import parse
 
 
 class AuthService(auth_pb2_grpc.AuthServicer):
+    def TestToken(self, request: TestTokenRequest, context):
+        db = next(get_db())
+        access_token = request.access_token
+        user_agent = request.user_agent
+        if access_token is None:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details('access_token field required!')
+            return TestTokenResponse()
+        if user_agent is None:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details('user_agent field required!')
+            return TestTokenResponse()
+
+        payload = decode_token(token=access_token)
+        if not check_expire(payload['expire']):
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details('access_token not valid!')
+            return TestTokenResponse()
+        if user_agent != payload["agent"]:
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details('user_agent not valid for this token!')
+            return TestTokenResponse()
+        return TestTokenResponse()
+
     def Login(self, request: LoginRequest, context):
         login = request.login
         password = request.password
