@@ -6,6 +6,4 @@ class Config(BaseSettings):
     REDIS_HOST = "redis-auth"
     REDIS_PORT = 6380
     SECRET_KEY = "somesecret"
-
-
 settings = Config()
