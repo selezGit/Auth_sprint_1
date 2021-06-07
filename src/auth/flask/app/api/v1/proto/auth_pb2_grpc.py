@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import auth_pb2 as auth__pb2
+import app.api.v1.proto.auth_pb2 as auth__pb2
 
 
 class AuthStub(object):

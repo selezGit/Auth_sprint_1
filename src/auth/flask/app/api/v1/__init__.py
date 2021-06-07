@@ -7,11 +7,11 @@ api_bp = Blueprint("api", __name__, url_prefix="/api/v1")
 authorizations = {
     "access_token": {"type": "apiKey",
                      "in": "header",
-                     "name": "access_token",
+                     "name": "Authorization",
                      "description": "Type in the 'Value' input box bellow: **Bearer <access_token>**"},
     "refresh_token": {"type": "apiKey",
                       "in": "header",
-                      "name": "refresh_token",
+                      "name": "Authorization",
                       "description": "Type in the 'Value' input box bellow: **refresh_token**"
                       }
 }

@@ -2,7 +2,8 @@ from http import HTTPStatus
 
 from app.api.v1.models.request_model import (auth_register_parser,
                                          change_email_parser,
-                                         change_password_parser)
+                                         change_password_parser, 
+                                         delete_me_parser)
 from app.api.v1.models.response_model import (nested_history_model,
                                           user_create_model,
                                           user_history_model)
@@ -17,6 +18,8 @@ user_ns = Namespace(name='user', validate=True)
 user_ns.models[user_create_model.name] = user_create_model
 user_ns.models[nested_history_model.name] = nested_history_model
 user_ns.models[user_history_model.name] = user_history_model
+
+
 
 
 @user_ns.route('/', endpoint='user')
@@ -34,14 +37,17 @@ class User(Resource):
         return create_user_logic(login=login, email=email, password=password)
 
     @user_ns.doc(security="access_token")
+    @user_ns.expect(delete_me_parser)
     @user_ns.response(int(HTTPStatus.OK), "Success")
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
     def delete(self):
+        request_data = delete_me_parser.parse_args()
+        password = request_data.get('password')
         access_token = request.headers.get('Authorization')
         user_agent = request.headers.get('User-Agent')
-        return delete_user_logic(access_token=access_token, user_agent=user_agent)
+        return delete_user_logic(access_token=access_token, user_agent=user_agent, password=password)
 
 
 @user_ns.route('/me', endpoint='user_me')
