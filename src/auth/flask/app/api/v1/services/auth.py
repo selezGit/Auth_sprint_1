@@ -37,8 +37,7 @@ def refresh_logic(refresh_token: str, user_agent: str):
 
 @error_handler
 def test_logic(access_token: str, user_agent: str):
-    test_token_data = (TestTokenRequest(access_token=access_token,
-                                        user_agent=user_agent))
-    request = client.TestToken(test_token_data)
-    # TODO не работает
+    test_token_data = TestTokenRequest(access_token=access_token,
+                                       user_agent=user_agent)
+    client.TestToken(test_token_data)
     return jsonify(status='Token is valid')

@@ -13,6 +13,8 @@ services:
       - elasticsearch
     entrypoint: ["/usr/src/app/entrypoint.sh"]
     command: "uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8000"
+    networks:
+      - microservices
   db:
     image: postgres:12.0-alpine
     env_file:
@@ -23,6 +25,8 @@ services:
       - ./.pg-data:/var/lib/postgresql/data/
       - ./src/async_api/create_schema.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
+    networks:
+      - microservices
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
@@ -36,6 +40,8 @@ services:
     ports:
       - 9200:9200
     restart: always
+    networks:
+      - microservices
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.7.0
@@ -45,6 +51,8 @@ services:
       - elasticsearch
     env_file:
       - ./src/async_api/.env
+    networks:
+      - microservices
 
   executable:
     container_name: etl_executable_back
@@ -63,6 +71,8 @@ services:
     depends_on:
       - db
       - elasticsearch
+    networks:
+      - microservices
 
   pgadmin:
     container_name: pgadmin-back
@@ -76,6 +86,8 @@ services:
     restart: unless-stopped
     depends_on:
       - db
+    networks:
+      - microservices
   redis:
     container_name: redis
     image: redis:6
@@ -84,7 +96,11 @@ services:
       - redisdata:/data
     ports:
       - 6379:6379
+    networks:
+      - microservices
 
+networks:
+  microservices:
 
   
 volumes:

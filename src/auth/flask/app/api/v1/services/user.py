@@ -23,11 +23,11 @@ def create_user_logic(login: str, email: str, password: str):
 
 
 @error_handler
-def delete_user_logic(access_token: str, user_agent: str):
-    delete_user_data = UserDeleteMe(access_token, user_agent)
-    request = client.DeleteMe(delete_user_data)
-    print(request)
-    # TODO логика удаления не работает, выкидывает ошибку
+def delete_user_logic(access_token: str, user_agent: str, password: str):
+    delete_user_data = UserDeleteMe(access_token=access_token,
+                                    user_agent=user_agent,
+                                    password=password)
+    client.DeleteMe(delete_user_data)
     return jsonify(message='user successfully deleted')
 
 
@@ -54,21 +54,16 @@ def change_password_logic(old_password: str, new_password: str,
                                                      new_password=new_password,
                                                      access_token=access_token,
                                                      user_agent=user_agent)
-    request = client.UpdatePassword(change_password_data)
-    print(request)
-    # TODO не работает
+    client.UpdatePassword(change_password_data)
     return jsonify(status='Success')
 
 
 @error_handler
 def change_email_logic(password: str, email: str,
                        access_token: str, user_agent: str):
-    upate_email_data = UserUpdateEmailRequest(password=password,
-                                              email=email,
-                                              access_token=access_token,
-                                              user_agent=user_agent)
-    request = client.UpdateEmail(upate_email_data)
-    print(request)
-    # TODO не работает
-
+    upate_email_data = UserUpdateEmailRequest(access_token=access_token,
+                                              user_agent=user_agent,
+                                              password=password,
+                                              email=email)
+    client.UpdateEmail(upate_email_data)
     return jsonify(status='Success')
