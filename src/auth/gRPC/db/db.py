@@ -1,15 +1,12 @@
 from typing import Generator
-import os
 
 import redis
-
+from core.config import settings
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker
-from core.config import settings
+from sqlalchemy.orm import sessionmaker
 
-# вы можете указать свою базу, для этого нужно в переменную PG_CONNECT
-# сохранить строчку в формате: 'postgresql://<username>:<password>@<host>:<port>/<database_name>'
+
 
 engine = create_engine(settings.PG_CONNECT)
 SessionLocal = sessionmaker(autocommit=False,

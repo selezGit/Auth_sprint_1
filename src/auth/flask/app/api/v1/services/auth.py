@@ -1,4 +1,3 @@
-import grpc
 from app.api.v1.exceptions import error_handler
 from app.api.v1.proto.auth_pb2 import (LoginRequest, LogoutRequest,
                                        RefreshTokenRequest, TestTokenRequest)

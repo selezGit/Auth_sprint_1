@@ -1,9 +1,9 @@
 from http import HTTPStatus
 
-from app.api.v1.db.request_model import (auth_register_parser,
+from app.api.v1.models.request_model import (auth_register_parser,
                                          change_email_parser,
                                          change_password_parser)
-from app.api.v1.db.response_model import (nested_history_model,
+from app.api.v1.models.response_model import (nested_history_model,
                                           user_create_model,
                                           user_history_model)
 from app.api.v1.services.user import (change_email_logic,
