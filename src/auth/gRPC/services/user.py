@@ -3,7 +3,7 @@ from auth_pb2 import UserResponse, UserCreateRequest, UserGetRequest, UserHistor
     UserHistoryRequest, \
     UserUpdateEmailRequest, UserUpdatePasswordRequest
 import grpc
-from db.db import get_db
+from db.db import get_db, db as db_session
 import crud
 from pathlib import Path
 from loguru import logger
@@ -12,7 +12,7 @@ from utils.token import decode_token, check_expire
 
 class UserService(auth_pb2_grpc.UserServicer):
     def Create(self, request: UserCreateRequest, context) -> UserResponse:
-        db = next(get_db())
+        db = next(db_session)
         if request.login is None:
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
             context.set_details('login field required!')
@@ -42,7 +42,7 @@ class UserService(auth_pb2_grpc.UserServicer):
         return user_response
 
     def Get(self, request: UserGetRequest, context):
-        db = next(get_db())
+        db = next(db_session)
         if request.access_token is None:
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
             context.set_details('access_token field required!')
@@ -67,7 +67,7 @@ class UserService(auth_pb2_grpc.UserServicer):
 
     def GetHistory(self, request: UserHistoryRequest, context):
         try:
-            db = next(get_db())
+            db = next(db_session)
             access_token = request.access_token
             user_agent = request.user_agent
             skip = request.skip or 0
@@ -106,7 +106,7 @@ class UserService(auth_pb2_grpc.UserServicer):
 
     def UpdateEmail(self, request: UserUpdateEmailRequest, context):
         try:
-            db = next(get_db())
+            db = next(db_session)
             access_token = request.access_token
             user_agent = request.user_agent
 
@@ -152,7 +152,7 @@ class UserService(auth_pb2_grpc.UserServicer):
 
     def UpdatePassword(self, request: UserUpdatePasswordRequest, context):
         try:
-            db = next(get_db())
+            db = next(db_session)
             access_token = request.access_token
             user_agent = request.user_agent
             new_password = request.password

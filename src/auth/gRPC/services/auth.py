@@ -6,14 +6,14 @@ import crud
 from utils.token import create_access_token, create_refresh_token, check_expire, decode_token
 from auth_pb2 import LoginRequest, LoginResponse, RefreshTokenResponse, RefreshTokenRequest, LogoutRequest, \
     LogoutResponse
-from db.db import get_db
+from db.db import get_db, db as db_session
 from loguru import logger
 from user_agents import parse
 
 
 class AuthService(auth_pb2_grpc.AuthServicer):
     def Login(self, request: LoginRequest, context):
-        db = next(get_db())
+        db = next(db_session)
         if request.login is None:
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
             context.set_details('login field required!')
@@ -67,7 +67,6 @@ class AuthService(auth_pb2_grpc.AuthServicer):
         except Exception as e:
             logger.debug(e)
             return LoginResponse()
-        logger.info("+")
         try:
             response = LoginResponse(access_token=access_token, refresh_token=refresh_token,
                                      expires_in=str(expire_access),
@@ -100,6 +99,7 @@ class AuthService(auth_pb2_grpc.AuthServicer):
                 return RefreshTokenResponse()
 
             now, expire_access, access_token = create_access_token(payload=payload)
+            payload['access_token'] = access_token
             now, expire, refresh_token = create_refresh_token(payload=payload)
 
             response = RefreshTokenResponse(access_token=access_token, refresh_token=refresh_token,
@@ -113,7 +113,7 @@ class AuthService(auth_pb2_grpc.AuthServicer):
 
     def Logout(self, request: LoginRequest, context):
         try:
-            db = next(get_db())
+            db = next(db_session)
             access_token = request.access_token
             user_agent = request.user_agent
             if access_token is None:
@@ -136,8 +136,10 @@ class AuthService(auth_pb2_grpc.AuthServicer):
                 return LogoutResponse()
             sign_in = crud.sign_in.get_by(db=db, user_id=payload['user_id'], user_agent=user_agent)
             crud.sign_in.update(db=db, db_obj=sign_in, obj_in={"active": False})
+
             # TODO delete refresh_token
             # TODO add access_token to black list
+
             response = LoginResponse()
         except Exception as e:
             logger.exception(e)
