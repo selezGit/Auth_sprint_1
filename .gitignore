@@ -137,3 +137,5 @@ dmypy.json
 
 ./tests/functional/.pg-data-test/*
 ./tests/functional/.es-data-test/*
+
+./src/auth/gRPC/jpyter/*

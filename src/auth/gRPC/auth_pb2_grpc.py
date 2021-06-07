@@ -15,25 +15,25 @@ class AuthStub(object):
             channel: A grpc.Channel.
         """
         self.Login = channel.unary_unary(
-            "/Auth/Login",
-            request_serializer=auth__pb2.LoginRequest.SerializeToString,
-            response_deserializer=auth__pb2.LoginResponse.FromString,
-        )
+                '/Auth/Login',
+                request_serializer=auth__pb2.LoginRequest.SerializeToString,
+                response_deserializer=auth__pb2.LoginResponse.FromString,
+                )
         self.RefreshToken = channel.unary_unary(
-            "/Auth/RefreshToken",
-            request_serializer=auth__pb2.RefreshTokenRequest.SerializeToString,
-            response_deserializer=auth__pb2.RefreshTokenResponse.FromString,
-        )
+                '/Auth/RefreshToken',
+                request_serializer=auth__pb2.RefreshTokenRequest.SerializeToString,
+                response_deserializer=auth__pb2.RefreshTokenResponse.FromString,
+                )
         self.Logout = channel.unary_unary(
-            "/Auth/Logout",
-            request_serializer=auth__pb2.LogoutRequest.SerializeToString,
-            response_deserializer=auth__pb2.LogoutResponse.FromString,
-        )
+                '/Auth/Logout',
+                request_serializer=auth__pb2.LogoutRequest.SerializeToString,
+                response_deserializer=auth__pb2.LogoutResponse.FromString,
+                )
         self.TestToken = channel.unary_unary(
-            "/Auth/TestToken",
-            request_serializer=auth__pb2.TestTokenRequest.SerializeToString,
-            response_deserializer=auth__pb2.TestTokenResponse.FromString,
-        )
+                '/Auth/TestToken',
+                request_serializer=auth__pb2.TestTokenRequest.SerializeToString,
+                response_deserializer=auth__pb2.TestTokenResponse.FromString,
+                )
 
 
 class AuthServicer(object):
@@ -42,175 +42,127 @@ class AuthServicer(object):
     def Login(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def RefreshToken(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def Logout(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def TestToken(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
 
 def add_AuthServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        "Login": grpc.unary_unary_rpc_method_handler(
-            servicer.Login,
-            request_deserializer=auth__pb2.LoginRequest.FromString,
-            response_serializer=auth__pb2.LoginResponse.SerializeToString,
-        ),
-        "RefreshToken": grpc.unary_unary_rpc_method_handler(
-            servicer.RefreshToken,
-            request_deserializer=auth__pb2.RefreshTokenRequest.FromString,
-            response_serializer=auth__pb2.RefreshTokenResponse.SerializeToString,
-        ),
-        "Logout": grpc.unary_unary_rpc_method_handler(
-            servicer.Logout,
-            request_deserializer=auth__pb2.LogoutRequest.FromString,
-            response_serializer=auth__pb2.LogoutResponse.SerializeToString,
-        ),
-        "TestToken": grpc.unary_unary_rpc_method_handler(
-            servicer.TestToken,
-            request_deserializer=auth__pb2.TestTokenRequest.FromString,
-            response_serializer=auth__pb2.TestTokenResponse.SerializeToString,
-        ),
+            'Login': grpc.unary_unary_rpc_method_handler(
+                    servicer.Login,
+                    request_deserializer=auth__pb2.LoginRequest.FromString,
+                    response_serializer=auth__pb2.LoginResponse.SerializeToString,
+            ),
+            'RefreshToken': grpc.unary_unary_rpc_method_handler(
+                    servicer.RefreshToken,
+                    request_deserializer=auth__pb2.RefreshTokenRequest.FromString,
+                    response_serializer=auth__pb2.RefreshTokenResponse.SerializeToString,
+            ),
+            'Logout': grpc.unary_unary_rpc_method_handler(
+                    servicer.Logout,
+                    request_deserializer=auth__pb2.LogoutRequest.FromString,
+                    response_serializer=auth__pb2.LogoutResponse.SerializeToString,
+            ),
+            'TestToken': grpc.unary_unary_rpc_method_handler(
+                    servicer.TestToken,
+                    request_deserializer=auth__pb2.TestTokenRequest.FromString,
+                    response_serializer=auth__pb2.TestTokenResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        "Auth", rpc_method_handlers)
+            'Auth', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
-# This class is part of an EXPERIMENTAL API.
+ # This class is part of an EXPERIMENTAL API.
 class Auth(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def Login(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def Login(request,
             target,
-            "/Auth/Login",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Auth/Login',
             auth__pb2.LoginRequest.SerializeToString,
             auth__pb2.LoginResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def RefreshToken(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def RefreshToken(request,
             target,
-            "/Auth/RefreshToken",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Auth/RefreshToken',
             auth__pb2.RefreshTokenRequest.SerializeToString,
             auth__pb2.RefreshTokenResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def Logout(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def Logout(request,
             target,
-            "/Auth/Logout",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Auth/Logout',
             auth__pb2.LogoutRequest.SerializeToString,
             auth__pb2.LogoutResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def TestToken(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def TestToken(request,
             target,
-            "/Auth/TestToken",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Auth/TestToken',
             auth__pb2.TestTokenRequest.SerializeToString,
             auth__pb2.TestTokenResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
 
 class UserStub(object):
@@ -223,40 +175,40 @@ class UserStub(object):
             channel: A grpc.Channel.
         """
         self.Get = channel.unary_unary(
-            "/User/Get",
-            request_serializer=auth__pb2.UserGetRequest.SerializeToString,
-            response_deserializer=auth__pb2.UserResponse.FromString,
-        )
+                '/User/Get',
+                request_serializer=auth__pb2.UserGetRequest.SerializeToString,
+                response_deserializer=auth__pb2.UserResponse.FromString,
+                )
         self.GetList = channel.unary_unary(
-            "/User/GetList",
-            request_serializer=auth__pb2.UserGetListRequest.SerializeToString,
-            response_deserializer=auth__pb2.UserGetListResponse.FromString,
-        )
+                '/User/GetList',
+                request_serializer=auth__pb2.UserGetListRequest.SerializeToString,
+                response_deserializer=auth__pb2.UserGetListResponse.FromString,
+                )
         self.GetHistory = channel.unary_unary(
-            "/User/GetHistory",
-            request_serializer=auth__pb2.UserHistoryRequest.SerializeToString,
-            response_deserializer=auth__pb2.UserHistoryResponse.FromString,
-        )
+                '/User/GetHistory',
+                request_serializer=auth__pb2.UserHistoryRequest.SerializeToString,
+                response_deserializer=auth__pb2.UserHistoryResponse.FromString,
+                )
         self.Create = channel.unary_unary(
-            "/User/Create",
-            request_serializer=auth__pb2.UserCreateRequest.SerializeToString,
-            response_deserializer=auth__pb2.UserResponse.FromString,
-        )
+                '/User/Create',
+                request_serializer=auth__pb2.UserCreateRequest.SerializeToString,
+                response_deserializer=auth__pb2.UserResponse.FromString,
+                )
         self.UpdateEmail = channel.unary_unary(
-            "/User/UpdateEmail",
-            request_serializer=auth__pb2.UserUpdateEmailRequest.SerializeToString,
-            response_deserializer=auth__pb2.UserResponse.FromString,
-        )
+                '/User/UpdateEmail',
+                request_serializer=auth__pb2.UserUpdateEmailRequest.SerializeToString,
+                response_deserializer=auth__pb2.UserResponse.FromString,
+                )
         self.UpdatePassword = channel.unary_unary(
-            "/User/UpdatePassword",
-            request_serializer=auth__pb2.UserUpdatePasswordRequest.SerializeToString,
-            response_deserializer=auth__pb2.UserResponse.FromString,
-        )
+                '/User/UpdatePassword',
+                request_serializer=auth__pb2.UserUpdatePasswordRequest.SerializeToString,
+                response_deserializer=auth__pb2.UserResponse.FromString,
+                )
         self.DeleteMe = channel.unary_unary(
-            "/User/DeleteMe",
-            request_serializer=auth__pb2.UserDeleteMe.SerializeToString,
-            response_deserializer=auth__pb2.UserResponse.FromString,
-        )
+                '/User/DeleteMe',
+                request_serializer=auth__pb2.UserDeleteMe.SerializeToString,
+                response_deserializer=auth__pb2.UserResponse.FromString,
+                )
 
 
 class UserServicer(object):
@@ -265,292 +217,208 @@ class UserServicer(object):
     def Get(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def GetList(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def GetHistory(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def Create(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def UpdateEmail(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def UpdatePassword(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def DeleteMe(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details("Method not implemented!")
-        raise NotImplementedError("Method not implemented!")
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
 
 def add_UserServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        "Get": grpc.unary_unary_rpc_method_handler(
-            servicer.Get,
-            request_deserializer=auth__pb2.UserGetRequest.FromString,
-            response_serializer=auth__pb2.UserResponse.SerializeToString,
-        ),
-        "GetList": grpc.unary_unary_rpc_method_handler(
-            servicer.GetList,
-            request_deserializer=auth__pb2.UserGetListRequest.FromString,
-            response_serializer=auth__pb2.UserGetListResponse.SerializeToString,
-        ),
-        "GetHistory": grpc.unary_unary_rpc_method_handler(
-            servicer.GetHistory,
-            request_deserializer=auth__pb2.UserHistoryRequest.FromString,
-            response_serializer=auth__pb2.UserHistoryResponse.SerializeToString,
-        ),
-        "Create": grpc.unary_unary_rpc_method_handler(
-            servicer.Create,
-            request_deserializer=auth__pb2.UserCreateRequest.FromString,
-            response_serializer=auth__pb2.UserResponse.SerializeToString,
-        ),
-        "UpdateEmail": grpc.unary_unary_rpc_method_handler(
-            servicer.UpdateEmail,
-            request_deserializer=auth__pb2.UserUpdateEmailRequest.FromString,
-            response_serializer=auth__pb2.UserResponse.SerializeToString,
-        ),
-        "UpdatePassword": grpc.unary_unary_rpc_method_handler(
-            servicer.UpdatePassword,
-            request_deserializer=auth__pb2.UserUpdatePasswordRequest.FromString,
-            response_serializer=auth__pb2.UserResponse.SerializeToString,
-        ),
-        "DeleteMe": grpc.unary_unary_rpc_method_handler(
-            servicer.DeleteMe,
-            request_deserializer=auth__pb2.UserDeleteMe.FromString,
-            response_serializer=auth__pb2.UserResponse.SerializeToString,
-        ),
+            'Get': grpc.unary_unary_rpc_method_handler(
+                    servicer.Get,
+                    request_deserializer=auth__pb2.UserGetRequest.FromString,
+                    response_serializer=auth__pb2.UserResponse.SerializeToString,
+            ),
+            'GetList': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetList,
+                    request_deserializer=auth__pb2.UserGetListRequest.FromString,
+                    response_serializer=auth__pb2.UserGetListResponse.SerializeToString,
+            ),
+            'GetHistory': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetHistory,
+                    request_deserializer=auth__pb2.UserHistoryRequest.FromString,
+                    response_serializer=auth__pb2.UserHistoryResponse.SerializeToString,
+            ),
+            'Create': grpc.unary_unary_rpc_method_handler(
+                    servicer.Create,
+                    request_deserializer=auth__pb2.UserCreateRequest.FromString,
+                    response_serializer=auth__pb2.UserResponse.SerializeToString,
+            ),
+            'UpdateEmail': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateEmail,
+                    request_deserializer=auth__pb2.UserUpdateEmailRequest.FromString,
+                    response_serializer=auth__pb2.UserResponse.SerializeToString,
+            ),
+            'UpdatePassword': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdatePassword,
+                    request_deserializer=auth__pb2.UserUpdatePasswordRequest.FromString,
+                    response_serializer=auth__pb2.UserResponse.SerializeToString,
+            ),
+            'DeleteMe': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteMe,
+                    request_deserializer=auth__pb2.UserDeleteMe.FromString,
+                    response_serializer=auth__pb2.UserResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        "User", rpc_method_handlers)
+            'User', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
-# This class is part of an EXPERIMENTAL API.
+ # This class is part of an EXPERIMENTAL API.
 class User(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def Get(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def Get(request,
             target,
-            "/User/Get",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/User/Get',
             auth__pb2.UserGetRequest.SerializeToString,
             auth__pb2.UserResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def GetList(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def GetList(request,
             target,
-            "/User/GetList",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/User/GetList',
             auth__pb2.UserGetListRequest.SerializeToString,
             auth__pb2.UserGetListResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def GetHistory(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def GetHistory(request,
             target,
-            "/User/GetHistory",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/User/GetHistory',
             auth__pb2.UserHistoryRequest.SerializeToString,
             auth__pb2.UserHistoryResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def Create(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def Create(request,
             target,
-            "/User/Create",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/User/Create',
             auth__pb2.UserCreateRequest.SerializeToString,
             auth__pb2.UserResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def UpdateEmail(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def UpdateEmail(request,
             target,
-            "/User/UpdateEmail",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/User/UpdateEmail',
             auth__pb2.UserUpdateEmailRequest.SerializeToString,
             auth__pb2.UserResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def UpdatePassword(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def UpdatePassword(request,
             target,
-            "/User/UpdatePassword",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/User/UpdatePassword',
             auth__pb2.UserUpdatePasswordRequest.SerializeToString,
             auth__pb2.UserResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def DeleteMe(
-        request,
-        target,
-        options=(),
-        channel_credentials=None,
-        call_credentials=None,
-        insecure=False,
-        compression=None,
-        wait_for_ready=None,
-        timeout=None,
-        metadata=None,
-    ):
-        return grpc.experimental.unary_unary(
-            request,
+    def DeleteMe(request,
             target,
-            "/User/DeleteMe",
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/User/DeleteMe',
             auth__pb2.UserDeleteMe.SerializeToString,
             auth__pb2.UserResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-        )
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

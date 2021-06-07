@@ -91,6 +91,7 @@ message UserUpdateEmailRequest {
 message UserDeleteMe {
     string access_token = 1;
     string user_agent = 2;
+    string password = 3;
 }
 
 message UserUpdatePasswordRequest {

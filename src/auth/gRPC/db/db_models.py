@@ -54,7 +54,7 @@ class User(Base):
     email = Column(String(255), nullable=False, unique=True)
     admin = Column(Boolean, default=False)
 
-    users_sign_in = relationship('UserSignIn')
+    users_sign_in = relationship('UserSignIn', cascade="all,delete")
 
     def __repr__(self):
         return f'<User {self.login}, ID: {self.id}, admin={self.admin}>'

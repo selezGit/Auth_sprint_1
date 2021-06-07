@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Any
 
 import bcrypt
 from sqlalchemy.orm import Session
@@ -28,6 +28,19 @@ class CRUDUser(CRUDBase):
         db.commit()
         db.refresh(db_obj)
         return db_obj
+
+    def update(
+            self,
+            db: Session,
+            *,
+            db_obj: User,
+            obj_in: Dict[str, Any],
+    ) -> User:
+        password = obj_in.pop('password')
+        hash_bytes = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        password_hash = hash_bytes.decode('utf-8')
+        obj_in['password_hash'] = password_hash
+        return super().update(db=db, db_obj=db_obj, obj_in=obj_in)
 
 
 user = CRUDUser()
