@@ -6,9 +6,11 @@ from api.v1.base_view import BaseView
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from models.film import Film, FilmShort
 from pydantic import UUID4
+from security.security import check_token
 from services.film import FilmService, get_film_service
 
 router = APIRouter()
+
 
 
 class Order(str, Enum):
@@ -28,30 +30,43 @@ class FilmView(BaseView):
         query: Optional[str] = None,
         request: Request = None,
         film_service: FilmService = Depends(get_film_service),
+        token_validation: bool = Depends(check_token)
     ) -> Optional[List[FilmShort]]:
         """Возвращает короткую информацию по всем фильмам, отсортированным по рейтингу,
         есть возможность фильтровать фильмы по id жанров"""
-        films = await film_service.get_by_param(
-            url=str(request.url), order=order, genre=genre, page=page, size=size, query=query
-        )
-
-        if not films:
-            raise HTTPException(
-                status_code=HTTPStatus.NOT_FOUND, detail="film not found"
+        if token_validation:
+            films = await film_service.get_by_param(
+                url=str(request.url), order=order, genre=genre, page=page, size=size, query=query
             )
 
-        return films
+            if not films:
+                raise HTTPException(
+                    status_code=HTTPStatus.NOT_FOUND, detail="film not found"
+                )
+
+            return films
+
+        raise HTTPException(
+                status_code=HTTPStatus.UNAUTHORIZED, detail="token not valid"
+            )
 
     @router.get("/{film_id}", response_model=Film, summary="Фильм")
     async def get_details(
         film_id: UUID4,
         request: Request = None,
         film_service: FilmService = Depends(get_film_service),
+        token_validation: bool = Depends(check_token)
+
     ) -> Film:
         """Возвращает информацию по одному фильму"""
-        film = await film_service.get_by_id(url=str(request.url), id=film_id)
-        if not film:
-            raise HTTPException(
-                status_code=HTTPStatus.NOT_FOUND, detail="film not found"
+        if token_validation:
+            film = await film_service.get_by_id(url=str(request.url), id=film_id)
+            if not film:
+                raise HTTPException(
+                    status_code=HTTPStatus.NOT_FOUND, detail="film not found"
+                )
+            return film
+
+        raise HTTPException(
+                status_code=HTTPStatus.UNAUTHORIZED, detail="token not valid"
             )
-        return film
