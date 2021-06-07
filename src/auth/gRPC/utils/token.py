@@ -6,9 +6,10 @@ import jwt
 from core.config import settings
 
 
-def create_access_token(payload: Dict) -> Tuple[datetime, datetime, bytes]:
+def create_access_token(payload: Dict, time=None) -> Tuple[datetime, datetime, str]:
     now = datetime.now(timezone.utc)
-    expire = now + timedelta(minutes=15)
+    delta = time or timedelta(minutes=15)
+    expire = now + delta
     expire = expire.timestamp()
     now = now.timestamp()
     payload['now'] = now
@@ -17,9 +18,10 @@ def create_access_token(payload: Dict) -> Tuple[datetime, datetime, bytes]:
     return (now, expire, access_token,)
 
 
-def create_refresh_token(payload: Dict) -> Tuple[datetime, datetime, bytes]:
+def create_refresh_token(payload: Dict, time=None) -> Tuple[datetime, datetime, str]:
     now = datetime.now(timezone.utc)
-    expire = now + timedelta(days=7)
+    delta = time or timedelta(days=7)
+    expire = now + delta
     expire = expire.timestamp()
     now = now.timestamp()
     payload['now'] = now

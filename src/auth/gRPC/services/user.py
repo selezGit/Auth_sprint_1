@@ -11,6 +11,7 @@ from utils.token import decode_token, check_expire
 from sqlalchemy.exc import IntegrityError
 
 from jwt.exceptions import InvalidKeyError, InvalidSignatureError, InvalidTokenError, DecodeError
+from db import no_sql_db as redis_method
 
 
 class UserService(auth_pb2_grpc.UserServicer):
@@ -67,7 +68,10 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return UserResponse()
-
+        if redis_method.check_blacklist(access_token):
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details('access_token not valid!')
+            return UserResponse()
         if not check_expire(payload['expire']):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
@@ -109,7 +113,12 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return UserResponse()
+
         if not check_expire(payload['expire']):
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details('access_token not valid!')
+            return UserHistoryResponse()
+        if redis_method.check_blacklist(access_token):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return UserHistoryResponse()
@@ -126,63 +135,65 @@ class UserService(auth_pb2_grpc.UserServicer):
         return response
 
     def UpdateEmail(self, request: UserUpdateEmailRequest, context):
+        db = next(get_db())
+
+        if request.access_token is None:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details('access_token field required!')
+            return UserResponse()
+        if request.user_agent is None:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details('user_agent field required!')
+            return UserResponse()
+        if request.email is None:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details('email field required!')
+            return UserResponse()
+        if request.password is None:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details('password field required!')
+            return UserResponse()
+        access_token = request.access_token
+        user_agent = request.user_agent
+        email = request.email
+        password = request.password
         try:
-            db = next(get_db())
-            if request.access_token is None:
-                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                context.set_details('access_token field required!')
-                return UserResponse()
-            if request.user_agent is None:
-                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                context.set_details('user_agent field required!')
-                return UserResponse()
-            if request.email is None:
-                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                context.set_details('email field required!')
-                return UserResponse()
-            if request.password is None:
-                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                context.set_details('password field required!')
-                return UserResponse()
-            access_token = request.access_token
-            user_agent = request.user_agent
-            email = request.email
-            password = request.password
-            try:
-                # TODO проверка access_token на наличие в black list
-                payload = decode_token(token=access_token)
+            payload = decode_token(token=access_token)
 
-            except InvalidTokenError as e:
-                context.set_code(grpc.StatusCode.UNAUTHENTICATED)
-                context.set_details('access_token not valid!')
-                return UserResponse()
+        except InvalidTokenError as e:
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details('access_token not valid!')
+            return UserResponse()
 
-            if not check_expire(payload['expire']):
-                context.set_code(grpc.StatusCode.UNAUTHENTICATED)
-                context.set_details('access_token not valid!')
-                return UserResponse()
-            if user_agent != payload["agent"]:
-                context.set_code(grpc.StatusCode.UNAUTHENTICATED)
-                context.set_details('user_agent not valid for this token!')
-                return UserResponse()
+        if redis_method.check_blacklist(access_token):
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details('access_token not valid!')
+            return UserResponse()
 
-            user = crud.user.get_by(db=db, id=payload['user_id'])
-            if not crud.user.check_password(user=user, password=password):
-                context.set_code(grpc.StatusCode.UNAUTHENTICATED)
-                context.set_details(f"password not valid!")
-                return UserResponse()
+        if not check_expire(payload['expire']):
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details('access_token not valid!')
+            return UserResponse()
+        if user_agent != payload["agent"]:
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details('user_agent not valid for this token!')
+            return UserResponse()
 
-            try:
-                user = crud.user.update(db=db, db_obj=user, obj_in={'email': email})
-            except IntegrityError as e:
-                logger.exception(e.orig.diag.message_detail)
-                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                context.set_details(e.orig.diag.message_detail)
-                return UserResponse()
-            response = UserResponse(id=str(user.id), email=user.email, login=user.login)
-            return response
-        except Exception as e:
-            logger.exception(e)
+        user = crud.user.get_by(db=db, id=payload['user_id'])
+        if not crud.user.check_password(user=user, password=password):
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details(f"password not valid!")
+            return UserResponse()
+
+        try:
+            user = crud.user.update(db=db, db_obj=user, obj_in={'email': email})
+        except IntegrityError as e:
+            logger.exception(e.orig.diag.message_detail)
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details(e.orig.diag.message_detail)
+            return UserResponse()
+        response = UserResponse(id=str(user.id), email=user.email, login=user.login)
+        return response
 
     def UpdatePassword(self, request: UserUpdatePasswordRequest, context):
         db = next(get_db())
@@ -207,14 +218,18 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_details('password field required!')
             return UserResponse()
         try:
-            # TODO проверка access_token на наличие в black list
             payload = decode_token(token=access_token)
 
         except InvalidTokenError as e:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return UserResponse()
+
         if not check_expire(payload['expire']):
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details('access_token not valid!')
+            return UserResponse()
+        if redis_method.check_blacklist(access_token):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return UserResponse()
@@ -229,7 +244,6 @@ class UserService(auth_pb2_grpc.UserServicer):
             return UserResponse()
         user = crud.user.update(db=db, db_obj=user, obj_in={'password': new_password})
 
-        # TODO мб стоит сбрасывать все access_code и refresh_code
         response = UserResponse(id=str(user.id), email=user.email, login=user.login)
         return response
 
@@ -251,10 +265,13 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_details('password field required!')
             return UserResponse()
         try:
-            # TODO проверка access_token на наличие в black list
             payload = decode_token(token=access_token)
 
         except InvalidTokenError as e:
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details('access_token not valid!')
+            return UserResponse()
+        if redis_method.check_blacklist(access_token):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return UserResponse()
@@ -271,6 +288,10 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details(f"password not valid!")
             return UserResponse()
-        # TODO delete all key in redis this user
+
+        all_auth = redis_method.get_all_auth_user(payload['user_id'])
+        for agent, ref in all_auth.items():
+            redis_method.del_refresh_token(ref.decode())
+        redis_method.del_all_auth_user(payload['user_id'])
         crud.user.remove(db=db, db_obj=user)
         return UserResponse()
