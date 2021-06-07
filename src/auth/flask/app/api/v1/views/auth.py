@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
-from app.api.v1.db.request_model import auth_login_parser
-from app.api.v1.db.response_model import auth_login_model
+from app.api.v1.models.request_model import auth_login_parser
+from app.api.v1.models.response_model import auth_login_model
 from app.api.v1.services.auth import (login_logic, logout_logic, refresh_logic,
                                       test_logic)
 from flask import request

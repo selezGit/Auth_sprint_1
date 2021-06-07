@@ -1,16 +1,8 @@
-from typing import Dict, Tuple
 import datetime
-import os
-import uuid
 from datetime import datetime, timedelta, timezone
+from typing import Dict, Tuple
 
-import bcrypt
 import jwt
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String, Text
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
-
-from db.no_sql_db import add_refresh_token, add_to_blacklist, del_refresh_token
 from core.config import settings
 
 

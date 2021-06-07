@@ -1,13 +1,12 @@
 import auth_pb2_grpc
-from auth_pb2 import UserResponse, UserCreateRequest, UserGetRequest, UserHistoryResponse, UserHistory, \
-    UserHistoryRequest, \
-    UserUpdateEmailRequest, UserUpdatePasswordRequest
-import grpc
-from db.db import get_db
 import crud
-from pathlib import Path
+import grpc
+from auth_pb2 import (UserCreateRequest, UserGetRequest, UserHistory,
+                      UserHistoryRequest, UserHistoryResponse, UserResponse,
+                      UserUpdateEmailRequest, UserUpdatePasswordRequest)
+from db.db import get_db
 from loguru import logger
-from utils.token import decode_token, check_expire
+from utils.token import check_expire, decode_token
 
 
 class UserService(auth_pb2_grpc.UserServicer):
@@ -38,7 +37,8 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_details(e)
             return UserResponse()
         logger.debug('User created!')
-        user_response = UserResponse(id=str(user.id), login=user.login, email=user.email)
+        user_response = UserResponse(
+            id=str(user.id), login=user.login, email=user.email)
         return user_response
 
     def Get(self, request: UserGetRequest, context):
@@ -91,7 +91,8 @@ class UserService(auth_pb2_grpc.UserServicer):
                 context.set_details('user_agent not valid for this token!')
                 return UserHistoryResponse()
 
-            history = crud.sign_in.get_history(db=db, user_id=payload['user_id'], skip=skip, limit=limit)
+            history = crud.sign_in.get_history(
+                db=db, user_id=payload['user_id'], skip=skip, limit=limit)
 
             row = [UserHistory(date=str(sign_in.logined_by), user_agent=sign_in.user_agent,
                                device_type=sign_in.user_device_type, active=sign_in.active) for sign_in in history]
@@ -139,9 +140,11 @@ class UserService(auth_pb2_grpc.UserServicer):
                 return UserResponse()
 
             # TODO проверить что пользователя с новым email нет в базе
-            user = crud.user.update(db=db, db_obj=user, obj_in={'email': request.email})
+            user = crud.user.update(db=db, db_obj=user, obj_in={
+                                    'email': request.email})
 
-            response = UserResponse(id=user.id, email=user.email, login=user.login)
+            response = UserResponse(
+                id=user.id, email=user.email, login=user.login)
         except Exception as e:
             logger.exception(e)
             context.set_code(grpc.StatusCode.UNKNOWN)
@@ -183,11 +186,13 @@ class UserService(auth_pb2_grpc.UserServicer):
                 context.set_details(f"password not valid!")
                 return UserResponse()
 
-            user = crud.user.update(db=db, db_obj=user, obj_in={'password': new_password})
+            user = crud.user.update(db=db, db_obj=user, obj_in={
+                                    'password': new_password})
 
             # TODO мб стоит сбрасывать все access_code и refresh_code
 
-            response = UserResponse(id=user.id, email=user.email, login=user.login)
+            response = UserResponse(
+                id=user.id, email=user.email, login=user.login)
         except Exception as e:
             logger.exception(e)
             context.set_code(grpc.StatusCode.UNKNOWN)
