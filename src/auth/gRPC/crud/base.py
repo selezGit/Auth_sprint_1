@@ -46,3 +46,10 @@ class CRUDBase:
         db.commit()
         db.refresh(db_obj)
         return db_obj
+
+    def remove(self,
+               db: Session,
+               *,
+               db_obj: ModelType, ):
+        db.delete(db_obj)
+        db.commit()
