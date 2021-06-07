@@ -1,17 +1,16 @@
 import auth_pb2_grpc
-from auth_pb2 import UserResponse, UserCreateRequest, UserGetRequest, UserHistoryResponse, UserHistory, \
-    UserHistoryRequest, \
-    UserUpdateEmailRequest, UserUpdatePasswordRequest, UserDeleteMe
-import grpc
-from db.db import get_db, db as db_session
 import crud
-from pathlib import Path
-from loguru import logger
-from utils.token import decode_token, check_expire
-from sqlalchemy.exc import IntegrityError
-
-from jwt.exceptions import InvalidKeyError, InvalidSignatureError, InvalidTokenError, DecodeError
+import grpc
+from auth_pb2 import (UserCreateRequest, UserDeleteMe, UserGetRequest,
+                      UserHistory, UserHistoryRequest, UserHistoryResponse,
+                      UserResponse, UserUpdateEmailRequest,
+                      UserUpdatePasswordRequest)
 from db import no_sql_db as redis_method
+from db.db import get_db
+from jwt.exceptions import InvalidTokenError
+from loguru import logger
+from sqlalchemy.exc import IntegrityError
+from utils.token import check_expire, decode_token
 
 
 class UserService(auth_pb2_grpc.UserServicer):
@@ -46,7 +45,8 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_code(grpc.StatusCode.WARNING)
             context.set_details()
             return UserResponse()
-        user_response = UserResponse(id=str(user.id), login=user.login, email=user.email)
+        user_response = UserResponse(
+            id=str(user.id), login=user.login, email=user.email)
         return user_response
 
     def Get(self, request: UserGetRequest, context):
@@ -127,7 +127,8 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_details('user_agent not valid for this token!')
             return UserHistoryResponse()
 
-        history = crud.sign_in.get_history(db=db, user_id=payload['user_id'], skip=skip, limit=limit)
+        history = crud.sign_in.get_history(
+            db=db, user_id=payload['user_id'], skip=skip, limit=limit)
 
         row = [UserHistory(date=str(sign_in.logined_by), user_agent=sign_in.user_agent,
                            device_type=sign_in.user_device_type, active=sign_in.active) for sign_in in history]
@@ -186,13 +187,15 @@ class UserService(auth_pb2_grpc.UserServicer):
             return UserResponse()
 
         try:
-            user = crud.user.update(db=db, db_obj=user, obj_in={'email': email})
+            user = crud.user.update(
+                db=db, db_obj=user, obj_in={'email': email})
         except IntegrityError as e:
             logger.exception(e.orig.diag.message_detail)
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
             context.set_details(e.orig.diag.message_detail)
             return UserResponse()
-        response = UserResponse(id=str(user.id), email=user.email, login=user.login)
+        response = UserResponse(
+            id=str(user.id), email=user.email, login=user.login)
         return response
 
     def UpdatePassword(self, request: UserUpdatePasswordRequest, context):
@@ -242,9 +245,11 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details(f"password not valid!")
             return UserResponse()
-        user = crud.user.update(db=db, db_obj=user, obj_in={'password': new_password})
+        user = crud.user.update(db=db, db_obj=user, obj_in={
+                                'password': new_password})
 
-        response = UserResponse(id=str(user.id), email=user.email, login=user.login)
+        response = UserResponse(
+            id=str(user.id), email=user.email, login=user.login)
         return response
 
     def DeleteMe(self, request: UserDeleteMe, context):

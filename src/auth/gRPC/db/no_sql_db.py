@@ -57,4 +57,4 @@ def del_auth_user(user_id: str, user_agent: str):
 
 def del_all_auth_user(user_id: str):
     name = f"auth:{user_id}"
-    return redis_db.hdel(name)
+    return redis_db.delete(name)

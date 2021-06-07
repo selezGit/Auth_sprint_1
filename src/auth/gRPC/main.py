@@ -15,10 +15,10 @@ def serve():
     auth_pb2_grpc.add_AuthServicer_to_server(AuthService(), server)
     auth_pb2_grpc.add_UserServicer_to_server(UserService(), server)
     server.add_insecure_port("[::]:50051")
+
     server.start()
     logger.info("Server startup.")
     server.wait_for_termination()
-
 
 if __name__ == "__main__":
     init_db()

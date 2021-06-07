@@ -33,7 +33,8 @@ class UserSignIn(Base):
         'listeners': [('after_create', create_partition)],
     }
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), primary_key=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey(
+        "users.id"), primary_key=True)
     logined_by = Column(DateTime, default=datetime.utcnow)
     user_agent = Column(Text)
     user_device_type = Column(String, primary_key=True)

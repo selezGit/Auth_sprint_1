@@ -7,14 +7,14 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-
 engine = create_engine(settings.PG_CONNECT)
 SessionLocal = sessionmaker(autocommit=False,
                             autoflush=False,
                             bind=engine)
 Base = declarative_base()
 
-redis_db = redis.Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0)
+redis_db = redis.Redis(host=settings.REDIS_HOST,
+                       port=settings.REDIS_PORT)
 
 
 def init_db():
