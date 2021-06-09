@@ -37,7 +37,7 @@ class UserService(auth_pb2_grpc.UserServicer):
             })
         except IntegrityError as e:
             logger.exception(e.orig.diag.message_detail)
-            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_code(grpc.StatusCode.ALREADY_EXISTS)
             context.set_details(e.orig.diag.message_detail)
             return UserResponse()
         except Exception as e:
@@ -182,7 +182,7 @@ class UserService(auth_pb2_grpc.UserServicer):
 
         user = crud.user.get_by(db=db, id=payload['user_id'])
         if not crud.user.check_password(user=user, password=password):
-            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
             context.set_details(f"password not valid!")
             return UserResponse()
 
@@ -290,7 +290,7 @@ class UserService(auth_pb2_grpc.UserServicer):
             return UserResponse()
         user = crud.user.get_by(db=db, id=payload['user_id'])
         if not crud.user.check_password(user=user, password=password):
-            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
             context.set_details(f"password not valid!")
             return UserResponse()
 

@@ -32,7 +32,6 @@ class Login(Resource):
 class Refresh(Resource):
     @auth_ns.doc(security="refresh_token")
     @auth_ns.response(int(HTTPStatus.OK), "Success", auth_login_model)
-    @auth_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @auth_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
     @auth_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
     def post(self):
@@ -46,7 +45,6 @@ class Refresh(Resource):
 class Logout(Resource):
     @auth_ns.doc(security="access_token")
     @auth_ns.response(int(HTTPStatus.OK), "Log out succeeded, token is no longer valid.")
-    @auth_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @auth_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
     @auth_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
     def post(self):
@@ -60,7 +58,6 @@ class Logout(Resource):
 class TestToken(Resource):
     @auth_ns.doc(security="access_token")
     @auth_ns.response(int(HTTPStatus.OK), "Token is valid")
-    @auth_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @auth_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
     @auth_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
     def get(self):

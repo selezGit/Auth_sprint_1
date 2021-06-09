@@ -70,7 +70,7 @@ class AuthService(auth_pb2_grpc.AuthServicer):
 
         user = crud.user.get_by(db=db, login=login)
         if user is None:
-            context.set_code(grpc.StatusCode.NOT_FOUND)
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details(f"user with login: {login} not found!")
             return LoginResponse()
 

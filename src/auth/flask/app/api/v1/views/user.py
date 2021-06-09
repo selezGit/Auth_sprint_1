@@ -26,7 +26,7 @@ user_ns.models[user_history_model.name] = user_history_model
 class User(Resource):
     @user_ns.expect(auth_register_parser)
     @user_ns.response(int(HTTPStatus.CREATED), "Success", user_create_model)
-    @user_ns.response(int(HTTPStatus.CONFLICT), "Email address is already registered.")
+    @user_ns.response(int(HTTPStatus.CONFLICT), "Email or login address is already registered.")
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
     def post(self):
@@ -54,7 +54,6 @@ class User(Resource):
 class UserMe(Resource):
     @user_ns.doc(security="access_token")
     @user_ns.response(int(HTTPStatus.OK), "Success", user_create_model)
-    @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
     def get(self):
@@ -107,7 +106,6 @@ class ChangeEmail(Resource):
 class History(Resource):
     @user_ns.doc(security="access_token")
     @user_ns.response(int(HTTPStatus.OK), "user successfully deleted.", user_history_model)
-    @user_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
     def get(self):
