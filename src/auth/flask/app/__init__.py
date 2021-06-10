@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 from app.config import DevelopmentConfig
 
@@ -14,4 +16,5 @@ def create_app():
 
     app.register_blueprint(api_bp)
     cors.init_app(app)
+    Limiter( app, key_func=get_remote_address, default_limits=["20/minute"])
     return app

@@ -1,19 +1,18 @@
 from http import HTTPStatus
 
-from flask.json import jsonify
-
 from app.api.v1.models.request_model import (auth_register_parser,
-                                         change_email_parser,
-                                         change_password_parser, 
-                                         delete_me_parser)
+                                             change_email_parser,
+                                             change_password_parser,
+                                             delete_me_parser)
 from app.api.v1.models.response_model import (nested_history_model,
-                                          user_create_model,
-                                          user_history_model)
+                                              user_create_model,
+                                              user_history_model)
 from app.api.v1.services.user import (change_email_logic,
                                       change_password_logic, create_user_logic,
                                       delete_user_logic, get_user_logic,
                                       history_logic)
 from flask import request
+from flask.json import jsonify
 from flask_restx import Namespace, Resource
 
 user_ns = Namespace(name='user', validate=True)
@@ -22,14 +21,13 @@ user_ns.models[nested_history_model.name] = nested_history_model
 user_ns.models[user_history_model.name] = user_history_model
 
 
-
-
 @user_ns.route('/', endpoint='user')
 class User(Resource):
     @user_ns.expect(auth_register_parser)
     @user_ns.response(int(HTTPStatus.CREATED), 'Success', user_create_model)
     @user_ns.response(int(HTTPStatus.CONFLICT), 'Email or login address is already registered.')
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), 'Validation error.')
+    @user_ns.response(int(HTTPStatus.TOO_MANY_REQUESTS), 'Too many requests')
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), 'Internal server error.')
     def post(self):
         request_data = auth_register_parser.parse_args()
@@ -43,6 +41,7 @@ class User(Resource):
     @user_ns.response(int(HTTPStatus.OK), 'Success')
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), 'Validation error.')
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), 'Token is invalid or expired.')
+    @user_ns.response(int(HTTPStatus.TOO_MANY_REQUESTS), 'Too many requests')
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), 'Internal server error.')
     def delete(self):
         request_data = delete_me_parser.parse_args()
@@ -51,14 +50,16 @@ class User(Resource):
         user_agent = request.headers.get('User-Agent')
         return delete_user_logic(access_token=access_token, user_agent=user_agent, password=password)
 
-# @user_ns.route('/delete_SN', endpoint='user_delete_SN')
-# class DeleteSN(Resource):
-#     @user_ns.doc(security='access_token')
-#     @user_ns.response(int(HTTPStatus.OK), 'Success')
-#     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), 'Token is invalid or expired.')
-#     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), 'Internal server error.')
-#     def post(self):
-#         return jsonify(hello='world')
+
+@user_ns.route('/delete_SN', endpoint='user_delete_SN')
+class DeleteSN(Resource):
+    @user_ns.doc(security='access_token')
+    @user_ns.response(int(HTTPStatus.OK), 'Success')
+    @user_ns.response(int(HTTPStatus.UNAUTHORIZED), 'Token is invalid or expired.')
+    @user_ns.response(int(HTTPStatus.TOO_MANY_REQUESTS), 'Too many requests')
+    @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), 'Internal server error.')
+    def post(self):
+        return jsonify(hello='world')
 
 
 @user_ns.route('/me', endpoint='user_me')
@@ -66,6 +67,7 @@ class UserMe(Resource):
     @user_ns.doc(security='access_token')
     @user_ns.response(int(HTTPStatus.OK), 'Success', user_create_model)
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), 'Token is invalid or expired.')
+    @user_ns.response(int(HTTPStatus.TOO_MANY_REQUESTS), 'Too many requests')
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), 'Internal server error.')
     def get(self):
         access_token = request.headers.get('Authorization')
@@ -80,6 +82,7 @@ class ChangePassword(Resource):
     @user_ns.response(int(HTTPStatus.OK), 'password changed successfully')
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), 'Validation error.')
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), 'Token is invalid or expired.')
+    @user_ns.response(int(HTTPStatus.TOO_MANY_REQUESTS), 'Too many requests')
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), 'Internal server error.')
     def patch(self):
         request_data = change_password_parser.parse_args()
@@ -100,6 +103,7 @@ class ChangeEmail(Resource):
     @user_ns.response(int(HTTPStatus.OK), 'email changed successfully')
     @user_ns.response(int(HTTPStatus.BAD_REQUEST), 'Validation error.')
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), 'Token is invalid or expired.')
+    @user_ns.response(int(HTTPStatus.TOO_MANY_REQUESTS), 'Too many requests')
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), 'Internal server error.')
     def patch(self):
         request_data = change_email_parser.parse_args()
@@ -118,6 +122,7 @@ class History(Resource):
     @user_ns.doc(security='access_token')
     @user_ns.response(int(HTTPStatus.OK), 'user successfully deleted.', user_history_model)
     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), 'Token is invalid or expired.')
+    @user_ns.response(int(HTTPStatus.TOO_MANY_REQUESTS), 'Too many requests')
     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), 'Internal server error.')
     def get(self):
         access_token = request.headers.get('Authorization')

@@ -4,6 +4,7 @@ from flask import Blueprint
 from flask_restx import Api
 
 api_bp = Blueprint('api', __name__, url_prefix='/api/v1')
+
 authorizations = {
     'access_token': {'type': 'apiKey',
                      'in': 'header',
