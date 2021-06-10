@@ -250,6 +250,20 @@ class UserService(auth_pb2_grpc.UserServicer):
         user = crud.user.update(db=db, db_obj=user, obj_in={
                                 'password': new_password})
 
+        all_auth = redis_method.get_all_auth_user(payload['user_id'])
+
+        for _, ref in all_auth.items():
+            try:
+                payload = decode_token(token=access_token)
+            except InvalidTokenError as e:
+                pass
+            exp_for_black_list = datetime.fromtimestamp(
+                payload['expire'], timezone.utc) - datetime.now(timezone.utc)
+            redis_method.add_to_blacklist(
+                access_token, exp=exp_for_black_list)
+            
+            redis_method.del_refresh_token(ref.decode())
+        redis_method.del_all_auth_user(payload['user_id'])
         response = UserResponse(
             id=str(user.id), email=user.email, login=user.login)
         return response
@@ -301,14 +315,12 @@ class UserService(auth_pb2_grpc.UserServicer):
         for _, ref in all_auth.items():
             try:
                 payload = decode_token(token=access_token)
-                print(payload)
             except InvalidTokenError as e:
                 pass
             exp_for_black_list = datetime.fromtimestamp(
                 payload['expire'], timezone.utc) - datetime.now(timezone.utc)
             redis_method.add_to_blacklist(
                 access_token, exp=exp_for_black_list)
-            print('here1')
             
             redis_method.del_refresh_token(ref.decode())
         redis_method.del_all_auth_user(payload['user_id'])
