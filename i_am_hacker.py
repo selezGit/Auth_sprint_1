@@ -20,7 +20,7 @@ def hashing_pass(word):
 
 
 def generate_pass(chars, start, end):
-    return ("".join(i) for i in islice(product(chars, repeat=6), start, end))
+    return (''.join(i) for i in islice(product(chars, repeat=6), start, end))
 
 
 def brute_force(hast_set, chars, start, end):

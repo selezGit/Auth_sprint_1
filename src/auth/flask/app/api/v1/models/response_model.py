@@ -3,38 +3,38 @@ from flask_restx.fields import String, Boolean, Integer, List, DateTime, Nested
 
 
 auth_login_model = Model(
-    "Login",
+    'Login',
     {
-        "access_token": String,
-        "refresh_token": String,
-        "expires_in": Integer,
-        "token_type": String,
+        'access_token': String,
+        'refresh_token': String,
+        'expires_in': Integer,
+        'token_type': String,
     }
 )
 
 user_create_model = Model(
-    "Create",
+    'Create',
     {
-        "e-mail": String,
-        "id": String,
-        "login": String
+        'e-mail': String,
+        'id': String,
+        'login': String
     }
 )
 
 
 nested_history_model = Model(
-    "History",
+    'History',
     {
-        "active": Boolean,
-        "date": DateTime(dt_format='rfc822'),
-        "deviceType": String,
-        "userAgent": String
+        'active': Boolean,
+        'date': DateTime(dt_format='rfc822'),
+        'deviceType': String,
+        'userAgent': String
     }
 )
 
 user_history_model = Model(
-    "HistoryList",
+    'HistoryList',
     {
-        "rows": List(Nested(nested_history_model))
+        'rows': List(Nested(nested_history_model))
     }
 )

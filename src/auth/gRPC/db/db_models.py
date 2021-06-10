@@ -33,13 +33,13 @@ class UserSignIn(Base):
     }
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = Column(UUID(as_uuid=True), ForeignKey(
-        "users.id"), primary_key=True)
+        'users.id'), primary_key=True)
     logined_by = Column(DateTime, default=datetime.utcnow)
     user_agent = Column(Text)
     user_device_type = Column(String, primary_key=True)
 
     active = Column(Boolean, default=True)
-    user = relationship("User")
+    user = relationship('User')
 
     def __repr__(self):
         return f'<UserSignIn {self.user_id}:{self.logined_by}>'
@@ -54,7 +54,7 @@ class User(Base):
     email = Column(String(255), nullable=False, unique=True)
     admin = Column(Boolean, default=False)
 
-    users_sign_in = relationship('UserSignIn', cascade="all,delete")
+    users_sign_in = relationship('UserSignIn', cascade='all,delete')
 
     def __repr__(self):
         return f'<User {self.login}, ID: {self.id}, admin={self.admin}>'

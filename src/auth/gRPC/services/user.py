@@ -33,9 +33,9 @@ class UserService(auth_pb2_grpc.UserServicer):
             return UserResponse()
         try:
             user = crud.user.create(db=db, obj_in={
-                "login": request.login,
-                "email": request.email,
-                "password": request.password
+                'login': request.login,
+                'email': request.email,
+                'password': request.password
             })
         except IntegrityError as e:
             logger.exception(e.orig.diag.message_detail)
@@ -79,7 +79,7 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_details('access_token not valid!')
             return UserResponse()
 
-        if user_agent != payload["agent"]:
+        if user_agent != payload['agent']:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('user_agent not valid for this token!')
             return UserResponse()
@@ -124,7 +124,7 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return UserHistoryResponse()
-        if user_agent != payload["agent"]:
+        if user_agent != payload['agent']:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('user_agent not valid for this token!')
             return UserHistoryResponse()
@@ -177,7 +177,7 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return UserResponse()
-        if user_agent != payload["agent"]:
+        if user_agent != payload['agent']:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('user_agent not valid for this token!')
             return UserResponse()
@@ -185,7 +185,7 @@ class UserService(auth_pb2_grpc.UserServicer):
         user = crud.user.get_by(db=db, id=payload['user_id'])
         if not crud.user.check_password(user=user, password=password):
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-            context.set_details(f"password not valid!")
+            context.set_details(f'password not valid!')
             return UserResponse()
 
         try:
@@ -238,14 +238,14 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return UserResponse()
-        if user_agent != payload["agent"]:
+        if user_agent != payload['agent']:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('user_agent not valid for this token!')
             return UserResponse()
         user = crud.user.get_by(db=db, id=payload['user_id'])
         if not crud.user.check_password(user=user, password=old_password):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
-            context.set_details(f"password not valid!")
+            context.set_details(f'password not valid!')
             return UserResponse()
         user = crud.user.update(db=db, db_obj=user, obj_in={
                                 'password': new_password})
@@ -286,14 +286,14 @@ class UserService(auth_pb2_grpc.UserServicer):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return UserResponse()
-        if user_agent != payload["agent"]:
+        if user_agent != payload['agent']:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('user_agent not valid for this token!')
             return UserResponse()
         user = crud.user.get_by(db=db, id=payload['user_id'])
         if not crud.user.check_password(user=user, password=password):
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-            context.set_details(f"password not valid!")
+            context.set_details(f'password not valid!')
             return UserResponse()
 
         all_auth = redis_method.get_all_auth_user(payload['user_id'])

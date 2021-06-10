@@ -4,7 +4,7 @@ from db.db import Base
 from sqlalchemy import inspect
 from sqlalchemy.orm import Session
 
-ModelType = TypeVar("ModelType", bound=Base)
+ModelType = TypeVar('ModelType', bound=Base)
 
 
 def object_as_dict(obj):

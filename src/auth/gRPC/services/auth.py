@@ -42,7 +42,7 @@ class AuthService(auth_pb2_grpc.AuthServicer):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return TestTokenResponse()
-        if user_agent != payload["agent"]:
+        if user_agent != payload['agent']:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('user_agent not valid for this token!')
             return TestTokenResponse()
@@ -70,17 +70,17 @@ class AuthService(auth_pb2_grpc.AuthServicer):
         user = crud.user.get_by(db=db, login=login)
         if user is None:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
-            context.set_details(f"user with login: {login} not found!")
+            context.set_details(f'user with login: {login} not found!')
             return LoginResponse()
 
         if not crud.user.check_password(user=user, password=request.password):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
-            context.set_details(f"password not valid!")
+            context.set_details(f'password not valid!')
             return LoginResponse()
 
         payload = {
-            "user_id": str(user.id),
-            "agent": request.user_agent
+            'user_id': str(user.id),
+            'agent': request.user_agent
         }
         refresh_delta = timedelta(days=7)
 
@@ -90,18 +90,18 @@ class AuthService(auth_pb2_grpc.AuthServicer):
 
         user_agent = parse(request.user_agent)
 
-        if "SMART" in request.user_agent:
-            device_type = "smart"
+        if 'SMART' in request.user_agent:
+            device_type = 'smart'
         elif user_agent.is_mobile:
-            device_type = "mobile"
+            device_type = 'mobile'
 
         else:
-            device_type = "web"
+            device_type = 'web'
 
         sign_in = {
-            "user_id": user.id,
-            "user_device_type": device_type,
-            "user_agent": request.user_agent,
+            'user_id': user.id,
+            'user_device_type': device_type,
+            'user_agent': request.user_agent,
         }
         crud.sign_in.create(db=db, obj_in=sign_in)
 
@@ -112,7 +112,7 @@ class AuthService(auth_pb2_grpc.AuthServicer):
 
         response = LoginResponse(access_token=access_token, refresh_token=refresh_token,
                                  expires_in=str(expire_access),
-                                 token_type="Bearer")
+                                 token_type='Bearer')
 
         return response
 
@@ -139,7 +139,7 @@ class AuthService(auth_pb2_grpc.AuthServicer):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('refresh_token not valid!')
             return RefreshTokenResponse()
-        if user_agent != payload["agent"]:
+        if user_agent != payload['agent']:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('user_agent not valid for this token!')
             return RefreshTokenResponse()
@@ -157,8 +157,8 @@ class AuthService(auth_pb2_grpc.AuthServicer):
         redis_method.del_refresh_token(refresh_token=refresh_token)
         refresh_delta = timedelta(days=7)
         payload = {
-            "user_id": payload['user_id'],
-            "agent": request.user_agent
+            'user_id': payload['user_id'],
+            'agent': request.user_agent
         }
         _, expire_access, access_token = create_access_token(payload=payload)
         payload['access_token'] = access_token
@@ -171,7 +171,7 @@ class AuthService(auth_pb2_grpc.AuthServicer):
 
         response = RefreshTokenResponse(access_token=access_token, refresh_token=refresh_token,
                                         expires_in=str(expire_access),
-                                        token_type="Bearer")
+                                        token_type='Bearer')
         return response
 
     def Logout(self, request: LoginRequest, context):
@@ -202,14 +202,14 @@ class AuthService(auth_pb2_grpc.AuthServicer):
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('access_token not valid!')
             return LogoutResponse()
-        if user_agent != payload["agent"]:
+        if user_agent != payload['agent']:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details('user_agent not valid for this token!')
             return LogoutResponse()
 
         sign_in = crud.sign_in.get_by(
             db=db, user_id=payload['user_id'], user_agent=user_agent)
-        crud.sign_in.update(db=db, db_obj=sign_in, obj_in={"active": False})
+        crud.sign_in.update(db=db, db_obj=sign_in, obj_in={'active': False})
         refresh_token = redis_method.get_auth_user(
             payload['user_id'], request.user_agent)
         redis_method.del_refresh_token(refresh_token)
