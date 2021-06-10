@@ -37,6 +37,4 @@ def decode_token(token: str) -> Dict:
 def check_expire(expire: str) -> bool:
     now = datetime.now(timezone.utc)
     now = now.timestamp()
-    if now > float(expire):
-        return False
-    return True
+    return now < float(expire)

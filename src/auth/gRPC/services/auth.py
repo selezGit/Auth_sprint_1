@@ -16,7 +16,6 @@ from utils.token import (check_expire, create_access_token,
 
 class AuthService(auth_pb2_grpc.AuthServicer):
     def TestToken(self, request: TestTokenRequest, context):
-        db = next(get_db())
         access_token = request.access_token
         user_agent = request.user_agent
         if access_token is None:
@@ -85,8 +84,8 @@ class AuthService(auth_pb2_grpc.AuthServicer):
         }
         refresh_delta = timedelta(days=7)
 
-        now, expire_access, access_token = create_access_token(payload=payload)
-        now, expire, refresh_token = create_refresh_token(
+        _, expire_access, access_token = create_access_token(payload=payload)
+        _, _, refresh_token = create_refresh_token(
             payload=payload, time=refresh_delta)
 
         user_agent = parse(request.user_agent)
@@ -156,17 +155,14 @@ class AuthService(auth_pb2_grpc.AuthServicer):
             context.set_details('Invalid refresh token! -')
             return RefreshTokenResponse()
         redis_method.del_refresh_token(refresh_token=refresh_token)
-
-        # redis_method.del_auth_user(payload['user_id'], refresh_token)
-
         refresh_delta = timedelta(days=7)
         payload = {
             "user_id": payload['user_id'],
             "agent": request.user_agent
         }
-        now, expire_access, access_token = create_access_token(payload=payload)
+        _, expire_access, access_token = create_access_token(payload=payload)
         payload['access_token'] = access_token
-        now, expire, refresh_token = create_refresh_token(
+        _, _, refresh_token = create_refresh_token(
             payload=payload, time=refresh_delta)
 
         redis_method.add_refresh_token(refresh_token, exp=refresh_delta)

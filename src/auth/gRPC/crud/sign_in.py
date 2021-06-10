@@ -1,7 +1,8 @@
 
-from crud.base import CRUDBase
 from db.db_models import UserSignIn
 from sqlalchemy.orm import Session
+
+from crud.base import CRUDBase
 
 
 class CRUDSignIn(CRUDBase):
