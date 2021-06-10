@@ -13,3 +13,4 @@ repackage==0.7.3
 uvicorn==0.13.4
 grpc-interceptor~= 0.12.0
 grpcio-tools~= 1.30
+fastapi-limiter==0.1.4
