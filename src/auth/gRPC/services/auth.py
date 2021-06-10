@@ -160,6 +160,10 @@ class AuthService(auth_pb2_grpc.AuthServicer):
         # redis_method.del_auth_user(payload['user_id'], refresh_token)
 
         refresh_delta = timedelta(days=7)
+        payload = {
+            "user_id": payload['user_id'],
+            "agent": request.user_agent
+        }
         now, expire_access, access_token = create_access_token(payload=payload)
         payload['access_token'] = access_token
         now, expire, refresh_token = create_refresh_token(
