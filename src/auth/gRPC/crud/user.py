@@ -1,10 +1,10 @@
-from typing import Dict, Any
+from typing import Any, Dict
 
 import bcrypt
+from db.db_models import User
 from sqlalchemy.orm import Session
 
 from crud.base import CRUDBase
-from db.db_models import User
 
 
 class CRUDUser(CRUDBase):

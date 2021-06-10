@@ -7,7 +7,6 @@ from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-
 from .db import Base
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'somesecret')

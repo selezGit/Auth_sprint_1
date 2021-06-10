@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 import auth_pb2_grpc
 import crud
 import grpc
@@ -12,7 +14,7 @@ from loguru import logger
 from sqlalchemy.exc import IntegrityError
 from utils.token import check_expire, decode_token
 
-from datetime import datetime, timezone
+
 class UserService(auth_pb2_grpc.UserServicer):
 
     def Create(self, request: UserCreateRequest, context) -> UserResponse:
@@ -296,15 +298,18 @@ class UserService(auth_pb2_grpc.UserServicer):
 
         all_auth = redis_method.get_all_auth_user(payload['user_id'])
 
-        for agent, ref in all_auth.items():
+        for _, ref in all_auth.items():
             try:
                 payload = decode_token(token=access_token)
+                print(payload)
             except InvalidTokenError as e:
                 pass
             exp_for_black_list = datetime.fromtimestamp(
                 payload['expire'], timezone.utc) - datetime.now(timezone.utc)
-            redis_method.add_to_blacklist(payload['access_token'], exp=exp_for_black_list)
-
+            redis_method.add_to_blacklist(
+                access_token, exp=exp_for_black_list)
+            print('here1')
+            
             redis_method.del_refresh_token(ref.decode())
         redis_method.del_all_auth_user(payload['user_id'])
         crud.user.remove(db=db, db_obj=user)

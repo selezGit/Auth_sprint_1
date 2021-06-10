@@ -1,5 +1,7 @@
 from http import HTTPStatus
 
+from flask.json import jsonify
+
 from app.api.v1.models.request_model import auth_login_parser
 from app.api.v1.models.response_model import auth_login_model
 from app.api.v1.services.auth import (login_logic, logout_logic, refresh_logic,
@@ -26,6 +28,16 @@ class Login(Resource):
         return login_logic(login=login,
                            password=password,
                            user_agent=user_agent)
+                           
+@auth_ns.route('/login_via_SN', endpoint="auth_login_via_SN")
+class LoginViaSN(Resource):
+    @auth_ns.response(int(HTTPStatus.OK), "Success")
+    @auth_ns.response(int(HTTPStatus.UNAUTHORIZED), "email or password does not match")
+    @auth_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
+    @auth_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
+    def post(self):
+        return jsonify(hello='world')
+
 
 
 @auth_ns.route('/refresh', endpoint='auth_refresh')
