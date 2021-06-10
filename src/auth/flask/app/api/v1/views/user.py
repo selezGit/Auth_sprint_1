@@ -51,14 +51,14 @@ class User(Resource):
         user_agent = request.headers.get('User-Agent')
         return delete_user_logic(access_token=access_token, user_agent=user_agent, password=password)
 
-@user_ns.route('/delete_SN', endpoint='user_delete_SN')
-class DeleteSN(Resource):
-    @user_ns.doc(security="access_token")
-    @user_ns.response(int(HTTPStatus.OK), "Success")
-    @user_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
-    @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
-    def post(self):
-        return jsonify(hello='world')
+# @user_ns.route('/delete_SN', endpoint='user_delete_SN')
+# class DeleteSN(Resource):
+#     @user_ns.doc(security="access_token")
+#     @user_ns.response(int(HTTPStatus.OK), "Success")
+#     @user_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
+#     @user_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
+#     def post(self):
+#         return jsonify(hello='world')
 
 
 @user_ns.route('/me', endpoint='user_me')

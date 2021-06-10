@@ -10,7 +10,7 @@ https://app.swaggerhub.com/apis/seleswagger/PRACTIX/1.0.0#/
 
 Оба сервиса доступны в локальном swagger'e
 
-* **Auth**: http://localhosl:5000/api/v1
+* **Auth**: http://localhost:5000/api/v1
 * **AsyncApi**: http://localhost:8000/docs
 
 

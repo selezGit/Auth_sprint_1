@@ -29,14 +29,14 @@ class Login(Resource):
                            password=password,
                            user_agent=user_agent)
                            
-@auth_ns.route('/login_via_SN', endpoint="auth_login_via_SN")
-class LoginViaSN(Resource):
-    @auth_ns.response(int(HTTPStatus.OK), "Success")
-    @auth_ns.response(int(HTTPStatus.UNAUTHORIZED), "email or password does not match")
-    @auth_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
-    @auth_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
-    def post(self):
-        return jsonify(hello='world')
+# @auth_ns.route('/login_via_SN', endpoint="auth_login_via_SN")
+# class LoginViaSN(Resource):
+#     @auth_ns.response(int(HTTPStatus.OK), "Success")
+#     @auth_ns.response(int(HTTPStatus.UNAUTHORIZED), "email or password does not match")
+#     @auth_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
+#     @auth_ns.response(int(HTTPStatus.SERVICE_UNAVAILABLE), "Internal server error.")
+#     def post(self):
+#         return jsonify(hello='world')
 
 
 
